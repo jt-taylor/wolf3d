@@ -6,7 +6,7 @@
 #    By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/16 19:30:49 by jtaylor           #+#    #+#              #
-#    Updated: 2019/09/23 16:24:35 by jtaylor          ###   ########.fr        #
+#    Updated: 2019/09/24 14:29:59 by jtaylor          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,11 @@ MINILIBX_HEADER_PATH = ./minilibx_macos/
 MLX_DIR = minilibx_macos
 
 INCLUDES = -I ./libft/includes
-INCLUDES += -I ./includes
+INCLUDES += -I ./inc
 INCLUDES += -I $(MINILIBX_HEADER_PATH)
 
-SRC_FILE =
+SRC_FILE = main_wolf3d.c \
+				populate_map.c
 SRC = $(addprefix ./src/, $(SRC_FILE))
 
 .PHONY = all clean fclean re
