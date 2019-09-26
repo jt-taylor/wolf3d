@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/24 14:35:23 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/09/25 19:42:15 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,57 @@
 # define WIN_H 512
 
 /*
-** only used to populate the map
+** the map data ,
+** width and height so we don't check out of bounds memory;
+** [M U[M#U
 */
 typedef struct	s_map
 {
-	//map size at start of file
 	int		height;
 	int		width;
+	int		xco;
+	int		yco;
 	int		fd;
+	int		**map;
 }				t_map;
+
+typedef struct	s_player
+{
+	float	x_cord;
+	float	y_cord;
+	//not sure what to use for the looking direction yet
+	//inventory ?
+	//modifiers ?
+	
+}				t_player;
+
+typedef struct	s_line
+{
+	int		xstart;
+	int		xfinal;
+	int		ystart;
+	int		yfinal;
+	int		dx;
+	int		sx;
+	int		dy;
+	int		sy;
+	int		err1;
+	int		err2;
+}				t_line;
+
+/*change this to a queue system
+ */
+typedef struct	s_shape
+{
+	int		q1x;
+	int		q1y;
+	int		q2x;
+	int		q2y;
+	int		q3x;
+	int		q3y;
+	int		q4x;
+	int		q4y;
+}				t_shape;
 
 /*
 ** I might just use sdl2 instead of mlx not sure yet
@@ -44,7 +86,7 @@ typedef struct	s_wolf_mlx
 	void		*mlx_ptr;
 	void		*window_ptr;
 	void		*img_ptr;
-	void		*data_start;
+	char		*data_start;
 	int			bpp;
 	int			endian;
 	int			size_line;
@@ -53,7 +95,10 @@ typedef struct	s_wolf_mlx
 typedef struct	s_wolf
 {
 	t_wolf_mlx	mlx;
-	int			**map;
+	t_map		*map;
+	t_player	player;
+	t_line		*line;
+	t_shape		*shape;
 }				t_wolf;
 
 /*
@@ -65,7 +110,24 @@ void			wolf3d_usage_msg(int i, char *str);
 /*
 ** populate_map.c
 */
-int				**populate_map_from_file(char *file);
 
+t_map				*populate_map_from_file(char *file);
+
+/*
+** 2d_display
+*/
+
+void		display_2d_grid(t_wolf *wolf);
+void		wolf_2d_check_adjacent(t_wolf *w, int x, int y);
+void		wolf3d_init_player(t_wolf *wolf);
+
+/*
+** image_interface.c
+*/
+
+void		test(t_wolf *wolf);
+void		ft_mlx_draw_line(t_line *l, t_wolf *wolf);
+void		ft_mlx_pixel_put(t_wolf *wolf, int x_cord, int y_cord);
+void		ft_mlx_draw_quad(t_wolf *wolf, t_shape *shape);
 
 #endif

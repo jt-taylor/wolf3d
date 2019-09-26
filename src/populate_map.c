@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/24 15:29:12 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/09/25 19:33:43 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ static int		**get_map_data(t_map *tmp)
 	return (map);
 }
 
-int				**populate_map_from_file(char *file)
+t_map				*populate_map_from_file(char *file)
 {
 	t_map	*tmp;
-	int		**map;
 
 	tmp = get_dimensions(file);
 	if (tmp->width < 10 || tmp->height < 10)
 		wolf3d_usage_msg(0, "input dimensios must be between 10 and 50 on\
 				either axis");
-	map = get_map_data(tmp);
-	free(tmp);
-	return (map);
+	tmp->map = get_map_data(tmp);
+	tmp->xco = (WIN_W / tmp->width);
+	tmp->yco = (WIN_H / tmp->height);
+	return (tmp);
 }

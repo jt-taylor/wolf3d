@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/24 14:33:14 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/09/25 19:42:09 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@
 ** 		hardware accelaration
 ** raycasting != raytracing;
 **
+** there are quite a few projects on github that showoff raycasting ;
+**
 ** links : (standard link disclaimer , i dont own or maintain these)
 **		2d raycasting ----------------------------------------------------------
 **	https://lodev.org/cgtutor/raycasting.html (this goes over wolfensteins
 **			raycasting specificaly)
 **	https://ncase.me/sight-and-light/
 **	https://www.redblobgames.com/articles/visibility/
-**	https://www.youtube.com/watch?v=TOEi6T2mtHo ---------------------------------
+**	https://www.youtube.com/watch?v=TOEi6T2mtHo
+**	^^ https://www.youtube.com/watch?v=vYgIKn7iDH8 ------------------------------
 */
 
 void		wolf3d_usage_msg(int i, char *str)
@@ -61,10 +64,14 @@ int			main(int ac, char **argv)
 
 	if (!(wolf = (t_wolf *)malloc(sizeof(t_wolf))))
 		wolf3d_usage_msg(1, "malloc error");
+	if (!(wolf->line = (t_line *)malloc(sizeof(t_wolf))))
+		wolf3d_usage_msg(1, "malloc error");
 	if (ac != 2)
 		wolf3d_usage_msg(0, "Specify exactly one map file");
 	wolf3d_init_mlx(wolf, argv[1]);
 	wolf->map = populate_map_from_file(argv[1]);
-	while (1);
-	//mlx loops
+	//test(wolf);
+	wolf3d_init_player(wolf);
+	display_2d_grid(wolf);
+	mlx_loop(wolf->mlx.mlx_ptr);
 }
