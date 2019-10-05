@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/25 19:42:09 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/05 14:52:52 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int			main(int ac, char **argv)
 	wolf->map = populate_map_from_file(argv[1]);
 	//test(wolf);
 	wolf3d_init_player(wolf);
-	display_2d_grid(wolf);
+	//display_2d_grid(wolf);
+	raycast_loop_overhead(wolf);
 	mlx_loop(wolf->mlx.mlx_ptr);
 }

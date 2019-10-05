@@ -6,7 +6,7 @@
 #    By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/16 19:30:49 by jtaylor           #+#    #+#              #
-#    Updated: 2019/09/25 19:40:13 by jtaylor          ###   ########.fr        #
+#    Updated: 2019/10/05 15:28:28 by jtaylor          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ INCLUDES += -I $(MINILIBX_HEADER_PATH)
 SRC_FILE = main_wolf3d.c \
 				populate_map.c \
 				image_interface.c \
-				2d_display.c
+				raycast.c \
+				player.c
 SRC = $(addprefix ./src/, $(SRC_FILE))
 
 .PHONY = all clean fclean re

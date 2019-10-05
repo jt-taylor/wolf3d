@@ -6,18 +6,11 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 12:43:59 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/25 20:24:58 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/05 15:20:55 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
-
-void		wolf3d_init_player(t_wolf *wolf)
-{
-	wolf->player.x_cord = WIN_W / 2;
-	wolf->player.y_cord = WIN_H / 2;
-}
 
 void		wolf_2d_check_adjacent(t_wolf *wolf, int x, int y)
 {

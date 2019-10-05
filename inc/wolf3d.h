@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/25 19:42:15 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/05 15:29:19 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,37 @@ typedef struct	s_map
 
 typedef struct	s_player
 {
-	float	x_cord;
-	float	y_cord;
+	double	x_cord;
+	double	y_cord;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	time;
+	double	old_time;
 	//not sure what to use for the looking direction yet
 	//inventory ?
 	//modifiers ?
 	
 }				t_player;
+
+typedef struct	s_raycast
+{
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	dist_to_side_x;
+	double	dist_to_side_y;
+	double	change_dist_x;
+	double	change_dist_y;
+	double	pepindicular;
+	int		map_pos_x;
+	int		map_pos_y;
+	int		step_x;
+	int		step_y;
+	int		hit_wall;
+	int		side;
+}				t_raycast;
 
 typedef struct	s_line
 {
@@ -99,6 +123,7 @@ typedef struct	s_wolf
 	t_player	player;
 	t_line		*line;
 	t_shape		*shape;
+	t_raycast	r;
 }				t_wolf;
 
 /*
@@ -117,9 +142,8 @@ t_map				*populate_map_from_file(char *file);
 ** 2d_display
 */
 
-void		display_2d_grid(t_wolf *wolf);
-void		wolf_2d_check_adjacent(t_wolf *w, int x, int y);
-void		wolf3d_init_player(t_wolf *wolf);
+//void		display_2d_grid(t_wolf *wolf);
+//void		wolf_2d_check_adjacent(t_wolf *w, int x, int y);
 
 /*
 ** image_interface.c
@@ -129,5 +153,18 @@ void		test(t_wolf *wolf);
 void		ft_mlx_draw_line(t_line *l, t_wolf *wolf);
 void		ft_mlx_pixel_put(t_wolf *wolf, int x_cord, int y_cord);
 void		ft_mlx_draw_quad(t_wolf *wolf, t_shape *shape);
+
+/*
+** raycast.c
+*/
+
+void		raycast_loop_overhead(t_wolf *w);
+
+/*
+** player.c
+*/
+
+void		wolf3d_init_player(t_wolf *wolf);
+
 
 #endif
