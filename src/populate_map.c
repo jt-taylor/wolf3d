@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/09/25 19:33:43 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/05 21:32:11 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_map				*populate_map_from_file(char *file)
 
 	tmp = get_dimensions(file);
 	if (tmp->width < 10 || tmp->height < 10)
-		wolf3d_usage_msg(0, "input dimensios must be between 10 and 50 on\
+		wolf3d_usage_msg(0, "input dimensios must be greater then 10 on\
 				either axis");
 	tmp->map = get_map_data(tmp);
 	tmp->xco = (WIN_W / tmp->width);

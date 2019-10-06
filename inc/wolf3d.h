@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/05 15:29:19 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/05 22:41:24 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,17 @@ void		raycast_loop_overhead(t_wolf *w);
 
 void		wolf3d_init_player(t_wolf *wolf);
 
+/*
+** wolf3d_mlx_hooks.c
+*/
+
+int		wolf3d_key_press(int key_code, t_wolf *wolf);
+int		wolf3d_close(void *param);
+
+/*
+** free_the_mlx
+*/
+
+void	free_mlx_ptr(void *mlx_ptr);
 
 #endif

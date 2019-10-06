@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   free_the_mlx.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/26 12:42:29 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/06 13:19:11 by jtaylor          ###   ########.fr       */
+/*   Created: 2019/10/05 22:39:02 by jtaylor           #+#    #+#             */
+/*   Updated: 2019/10/05 22:40:38 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include <OpenGL/gl3.h>
+#include <stdlib.h>
+#include "mlx_int.h"
 
-void	wolf3d_init_player(t_wolf *wolf)
+void	free_mlx_ptr(void *mlx_ptr)
 {
-	wolf->player.x_cord = 22.0;
-	wolf->player.y_cord = 12.0;
-	wolf->player.dir_x = -1.0;
-	wolf->player.dir_y = 1.0;
-	wolf->player.plane_x = 0.0;
-	wolf->player.plane_y = 1.0;
+	free(((mlx_ptr_t *)(mlx_ptr))->font->buffer);
+	free(((mlx_ptr_t *)(mlx_ptr))->font);
+	free(mlx_ptr);
 }

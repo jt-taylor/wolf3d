@@ -6,7 +6,7 @@
 #    By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/16 19:30:49 by jtaylor           #+#    #+#              #
-#    Updated: 2019/10/05 15:28:28 by jtaylor          ###   ########.fr        #
+#    Updated: 2019/10/05 22:41:09 by jtaylor          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,9 @@ SRC_FILE = main_wolf3d.c \
 				populate_map.c \
 				image_interface.c \
 				raycast.c \
-				player.c
+				player.c \
+				wolf3d_mlx_hooks.c \
+				free_the_mlx.c
 SRC = $(addprefix ./src/, $(SRC_FILE))
 
 .PHONY = all clean fclean re

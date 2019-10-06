@@ -6,11 +6,16 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/05 15:23:58 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/06 13:58:49 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+/*
+** really werid error where in the line calc where changing > to >= makes the floats divide by zero in ray()
+** also the camera angle isn't perpindicular (???)
+*/
 
 /*
 ** init's the values for each column along the screen
@@ -19,9 +24,10 @@
 
 static inline void	ray(t_wolf *w, int x)
 {
-	w->r.camera_x = 2 * x / (double) WIN_W - 1;
+	w->r.camera_x = 2 * x / (double)WIN_W - 1;
 	w->r.ray_dir_x = w->player.dir_x + w->player.plane_x * w->r.camera_x;
 	w->r.ray_dir_y = w->player.dir_y + w->player.plane_y * w->r.camera_x;
+	(w->r.ray_dir_y == 0) ? w->r.ray_dir_y += .001 : 0;
 	w->r.map_pos_x = w->player.x_cord;
 	w->r.map_pos_y = w->player.y_cord;
 	w->r.dist_to_side_x = 0;
@@ -88,7 +94,7 @@ static inline void	dda_run(t_wolf *w)
 			w->r.map_pos_y += w->r.step_y;
 		}
 		//need to protect agains out of array access
-		if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
+		if (w->map->map[w->r.map_pos_x][w->r.map_pos_y] > 0)
 			w->r.hit_wall = 1;
 	}
 }
@@ -102,7 +108,8 @@ static inline void	calc_line_height(t_wolf *w)
 	if (w->line->ystart < 0)
 		w->line->ystart = 0;
 	w->line->yfinal = line_height / 2 + WIN_H / 2;
-	if (w->line->yfinal > WIN_H)
+	if (w->line->yfinal >= WIN_H)
+	//if (w->line->yfinal > WIN_H)
 		w->line->yfinal = WIN_H - 1;
 }
 
@@ -139,7 +146,7 @@ static inline void				raycast_loop(t_wolf *wolf)
 
 void				raycast_loop_overhead(t_wolf *w)
 {
-	while (1)
+//	while (1)
 	{
 		raycast_loop(w);
 		mlx_put_image_to_window(w->mlx.mlx_ptr, w->mlx.window_ptr,
