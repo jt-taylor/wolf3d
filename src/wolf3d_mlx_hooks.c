@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:38:56 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/06 13:59:14 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/07 14:24:22 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,38 @@ int		wolf3d_close(void *param)
 	free_the_things((t_wolf *)param);
 	//free everything that I malloc'd
 	//and posibly what mlx malloc'd
+	//everything I malloc'd should be free'd here
 	exit(0);
 }
 
-//static inline void	wolf3d_move(int key_code, t_wolf *w)
-//{
-//	//need to add in the timeing functions to decouple the rnedering from the
-//	//movement speed
-//	if (key_code == 0x7d)//key down
-//	{
-//
-//	}
-//	else if (key_code == 0x7e)//key up;
-//	{
-//		(w->map->map[w->player.x_cord
-//	}
-//	else if (key_code == 0x7c)//key right
-//	{
-//
-//	}
-//	else if (key_code == 0x7b)
-//	{
-//
-//	}
-//}
+static inline void	wolf3d_move(int key_code, t_wolf *w)
+{
+	//need to add in the timeing functions to decouple the rnedering from the
+	//making the steps smaller will reduce the angle 
+	//movement speed
+	if (key_code == 0x7d)//key down
+	{
+		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord - w->player.dir_x)] == 0) ?
+			w->player.x_cord -= w->player.dir_x : 0;
+		(w->map->map[(int)(w->player.y_cord - w->player.dir_y)][(int)w->player.x_cord] == 0) ?
+			w->player.y_cord -= w->player.dir_y : 0;
+	}
+	else if (key_code == 0x7e)//key up;
+	{
+		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord + w->player.dir_x)] == 0) ?
+			w->player.x_cord += w->player.dir_x : 0;
+		(w->map->map[(int)(w->player.y_cord + w->player.dir_y)][(int)w->player.x_cord] == 0) ?
+			w->player.y_cord += w->player.dir_y : 0;
+	}
+	else if (key_code == 0x7c)//key right
+	{
+		;
+	}
+	else if (key_code == 0x7b)
+	{
+		;
+	}
+}
 
 /*
 ** you can find a header will all the key codes that you need on github or
@@ -93,6 +101,7 @@ int		wolf3d_key_press(int key_code, t_wolf *wolf)
 	if (key_code == 0x35)
 		wolf3d_close(wolf);
 	else if (key_code >= 0x7b && key_code <= 0x7e)
-		;
+		wolf3d_move(key_code, wolf);
+	raycast_loop_overhead(wolf);
 	return (0);
 }

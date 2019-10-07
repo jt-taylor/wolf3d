@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/05 22:41:24 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/07 14:09:20 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ typedef struct	s_player
 	double	plane_y;
 	double	time;
 	double	old_time;
-	//not sure what to use for the looking direction yet
 	//inventory ?
 	//modifiers ?
-	
 }				t_player;
 
 typedef struct	s_raycast
@@ -88,8 +86,9 @@ typedef struct	s_line
 	int		err2;
 }				t_line;
 
-/*change this to a queue system
- */
+/*
+** unused atm
+*/
 typedef struct	s_shape
 {
 	int		q1x;
@@ -102,9 +101,6 @@ typedef struct	s_shape
 	int		q4y;
 }				t_shape;
 
-/*
-** I might just use sdl2 instead of mlx not sure yet
-*/
 typedef struct	s_wolf_mlx
 {
 	void		*mlx_ptr;

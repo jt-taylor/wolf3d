@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/06 11:10:30 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/07 14:04:52 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 **	https://www.redblobgames.com/articles/visibility/
 **	https://www.youtube.com/watch?v=TOEi6T2mtHo
 **	^^ https://www.youtube.com/watch?v=vYgIKn7iDH8 ------------------------------
+**
+** blinky project --------------------------------------------------------------
+** exploration of peripharol vision using the quake demo
+** https://www.youtube.com/watch?v=f9v_XN7Wxh8
+** https://github.com/shaunlebron/blinky
 */
 
 void		wolf3d_usage_msg(int i, char *str)

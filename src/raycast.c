@@ -6,16 +6,11 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/06 13:58:49 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/07 14:30:16 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
-/*
-** really werid error where in the line calc where changing > to >= makes the floats divide by zero in ray()
-** also the camera angle isn't perpindicular (???)
-*/
 
 /*
 ** init's the values for each column along the screen
@@ -92,12 +87,18 @@ static inline void	dda_run(t_wolf *w)
 		{
 			w->r.dist_to_side_y += w->r.change_dist_y;
 			w->r.map_pos_y += w->r.step_y;
+			w->r.side = 1;
 		}
 		//need to protect agains out of array access
+		//or require the map to be inclosed in walls
 		if (w->map->map[w->r.map_pos_x][w->r.map_pos_y] > 0)
 			w->r.hit_wall = 1;
 	}
 }
+
+/*
+** the start and finish y values to draw the line for a given x value
+*/
 
 static inline void	calc_line_height(t_wolf *w)
 {
@@ -107,11 +108,18 @@ static inline void	calc_line_height(t_wolf *w)
 	w->line->ystart = -line_height / 2 + WIN_H / 2;
 	if (w->line->ystart < 0)
 		w->line->ystart = 0;
+	if (w->line->ystart >= WIN_H)
+		w->line->ystart = 0;
 	w->line->yfinal = line_height / 2 + WIN_H / 2;
+	if (w->line->yfinal < 0)
+		w->line->yfinal = 0;
 	if (w->line->yfinal >= WIN_H)
-	//if (w->line->yfinal > WIN_H)
 		w->line->yfinal = WIN_H - 1;
 }
+
+/*
+** calculates the perpindicular distance to the wall rather than the actual distance
+*/
 
 static inline void	distance_to_wall_and_line_height(t_wolf *w)
 {
@@ -121,6 +129,10 @@ static inline void	distance_to_wall_and_line_height(t_wolf *w)
 		w->r.pepindicular = (w->r.map_pos_y - w->player.y_cord + (1 - w->r.step_y) / 2) / w->r.ray_dir_y;
 	calc_line_height(w);
 }
+
+/*
+** using delta distance alg
+*/
 
 static inline void				raycast_loop(t_wolf *wolf)
 {
