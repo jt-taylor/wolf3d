@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/07 14:30:16 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/07 17:41:44 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ static inline void	calc_line_height(t_wolf *w)
 
 /*
 ** calculates the perpindicular distance to the wall rather than the actual distance
+** when extremely close to a wall (~15 digits after 0) the wall displays a lil buggy
 */
 
 static inline void	distance_to_wall_and_line_height(t_wolf *w)
