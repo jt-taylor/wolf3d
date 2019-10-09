@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:38:56 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/08 12:24:26 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/08 17:49:48 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int		wolf3d_close(void *param)
 ** the collision check the x / y component seperately because i didn't make a struct for vectors/rays
 ** panning left / right (ie moving the camera) we need to change the camera direction && plane
 ** to rotate the camera plane we need to change the dirrection vector and the camera plane porpotionaly
-** [ cos(a) -sin(a) ]
-** [ sin(a)  cos(a) ]
 */
 
 static inline void	wolf3d_move(int key_code, t_wolf *w)
@@ -75,19 +73,19 @@ static inline void	wolf3d_move(int key_code, t_wolf *w)
 	double	rot;
 
 	rot = .3;
-	ms = 0.2;
+	ms = 0.05;
 	if (key_code == 0x7d)//key down
 	{
-		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord - w->player.dir_x)] == 0) ?
+		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord - w->player.dir_x * ms)] == 0) ?
 			w->player.x_cord -= w->player.dir_x * ms : 0;
-		(w->map->map[(int)(w->player.y_cord - w->player.dir_y)][(int)w->player.x_cord] == 0) ?
+		(w->map->map[(int)(w->player.y_cord - w->player.dir_y * ms)][(int)w->player.x_cord] == 0) ?
 			w->player.y_cord -= w->player.dir_y * ms : 0;
 	}
 	else if (key_code == 0x7e)//key up;
 	{
-		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord + w->player.dir_x)] == 0) ?
+		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord + w->player.dir_x * ms)] == 0) ?
 			w->player.x_cord += w->player.dir_x * ms: 0;
-		(w->map->map[(int)(w->player.y_cord + w->player.dir_y)][(int)w->player.x_cord] == 0) ?
+		(w->map->map[(int)(w->player.y_cord + w->player.dir_y * ms)][(int)w->player.x_cord] == 0) ?
 			w->player.y_cord += w->player.dir_y * ms : 0;
 	}
 	else if (key_code == 0x7c)//key right
