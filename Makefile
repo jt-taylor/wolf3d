@@ -6,7 +6,7 @@
 #    By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/16 19:30:49 by jtaylor           #+#    #+#              #
-#    Updated: 2019/10/05 22:41:09 by jtaylor          ###   ########.fr        #
+#    Updated: 2019/10/09 18:58:25 by jtaylor          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LINKED_LIB = -L ./minilibx_macos -l mlx
 
 FRAMEWORK = -framework OpenGL -framework AppKit
 
-MINILIBX_HEADER_PATH = ./minilibx_macos/
+MINILIBX_HEADER_PATH = ./minilibx_macos
 MLX_DIR = minilibx_macos
 
 INCLUDES = -I ./libft/includes
@@ -63,6 +63,7 @@ fsan : mlx_made
 
 mlx_made :
 	tar -xvf minilibx.tar
+#	@make -C minilibx
 
 clean :
 	@make -C libft clean

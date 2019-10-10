@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/07 14:04:52 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/09 18:08:28 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@
 ** not sure how I want to store the maps yet ,
 **
 ** the map is 2d (a la wolfenstein hence raycasting)
-** raycasting only needs to calculate for each 'y' line on the screen
-** 		which lets it run on what one could call toasters without
-** 		hardware accelaration
-** raycasting != raytracing;
+** raycasting only needs to calculate for each column on the scren
 **
 ** there are quite a few projects on github that showoff raycasting ;
 **
@@ -32,7 +29,8 @@
 **	https://www.youtube.com/watch?v=TOEi6T2mtHo
 **	^^ https://www.youtube.com/watch?v=vYgIKn7iDH8 ------------------------------
 **
-** blinky project --------------------------------------------------------------
+** blinky project ---------------------------------------------------------------
+** not super relevent but i thought it was cool
 ** exploration of peripharol vision using the quake demo
 ** https://www.youtube.com/watch?v=f9v_XN7Wxh8
 ** https://github.com/shaunlebron/blinky
@@ -73,8 +71,8 @@ int			main(int ac, char **argv)
 		wolf3d_usage_msg(1, "malloc error");
 	if (ac != 2)
 		wolf3d_usage_msg(0, "Specify exactly one map file");
-	wolf3d_init_mlx(wolf, argv[1]);
 	wolf->map = populate_map_from_file(argv[1]);
+	wolf3d_init_mlx(wolf, argv[1]);
 	//test(wolf);
 	wolf3d_init_player(wolf);
 	//display_2d_grid(wolf);

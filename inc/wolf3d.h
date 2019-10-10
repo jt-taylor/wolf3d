@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/07 14:09:20 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/09 17:28:01 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@
 # define WIN_H 512
 
 /*
-** the map data ,
-** width and height so we don't check out of bounds memory;
-** [M U[M#U
+** the map data
 */
 typedef struct	s_map
 {
 	int		height;
 	int		width;
+	int		xstart;
+	int		ystart;
 	int		xco;
 	int		yco;
 	int		fd;

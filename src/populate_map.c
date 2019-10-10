@@ -6,19 +6,44 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/05 21:32:11 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/09 18:05:28 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
 /*
-** this fills in a 2d int array from the input file
-**
-** I would rather have each map as a seperate c file that just loads the map
-** but the map has to be decoupled from the executable so no recompilation
-** 	is done to change maps
+** this file parses the supplied map file , the map file should be in the
+** following format :
 */
+
+static inline void	grab_start_cord(int fd, char **arr, t_map *map)
+{
+	char	*line;
+	char	**split;
+
+	if (!arr[0] || !arr[1])
+		//exit erorr;
+		wolf3d_usage_msg(3, "dimensions not provided by input file");
+	map->width = ft_atoi(arr[0]);
+	map->height = ft_atoi(arr[1]);
+	get_next_line(fd, &line);
+	split = ft_strsplit(line, ' ');
+	if (split[2] || !split[0] || !split[1])
+		wolf3d_usage_msg(3, "erorr reading (x,y) start");
+	map->xstart = ft_atoi(split[0]);
+	map->ystart = ft_atoi(split[1]);
+	if (map->xstart <= 0 || map->xstart >= map->width)
+		wolf3d_usage_msg(3, "starting (x,y) must be between 0 && width");
+	if (map->ystart <= 0 || map->ystart >= map->width)
+		wolf3d_usage_msg(3, "starting (x,y) must be between 0 && width");
+}
+
+/*
+** this specifically malloc's the struct s_map
+** and grabs the supplied width / height dimensions;
+*/
+
 static t_map	*get_dimensions(char *file)
 {
 	char	*line;
@@ -34,11 +59,7 @@ static t_map	*get_dimensions(char *file)
 		//exit error read map;
 		wolf3d_usage_msg(2, "erorr reading from file || t_map failed malloc");
 	arr = ft_strsplit(line, ' ');
-	if (!arr[0] || !arr[1])
-		//exit erorr;
-		wolf3d_usage_msg(3, "dimensions not provided by input file");
-	tmp->width = ft_atoi(arr[0]);
-	tmp->height = ft_atoi(arr[1]);
+	grab_start_cord(tmp->fd, arr, tmp);
 	ft_freestrarr(arr);
 	free(line);
 	return (tmp);

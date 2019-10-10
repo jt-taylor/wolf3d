@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/08 19:59:05 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/09 09:55:44 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,13 @@ static inline void	dda_run(t_wolf *w)
 		}
 		//need to protect agains out of array access
 		//or require the map to be inclosed in walls
-		if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
+		if (w->r.map_pos_y >= w->map->height || w->r.map_pos_x >= w->map->width)
+		{
+			w->r.map_pos_x = w->map->width - 1;
+			w->r.map_pos_y = w->map->height - 1;
+			w->r.hit_wall = 1;
+		}
+		else if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
 			w->r.hit_wall = 1;
 	}
 }
