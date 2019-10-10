@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:38:56 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/08 17:49:48 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/10 16:03:05 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,55 +63,52 @@ int		wolf3d_close(void *param)
 ** to rotate the camera plane we need to change the dirrection vector and the camera plane porpotionaly
 */
 
-static inline void	wolf3d_move(int key_code, t_wolf *w)
-{
-	//need to add in the timeing functions to decouple the rnedering from the
-	//making the steps smaller will reduce the angle 
-	//movement speed
-	double	ms;
-	double	old;
-	double	rot;
-
-	rot = .3;
-	ms = 0.05;
-	if (key_code == 0x7d)//key down
-	{
-		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord - w->player.dir_x * ms)] == 0) ?
-			w->player.x_cord -= w->player.dir_x * ms : 0;
-		(w->map->map[(int)(w->player.y_cord - w->player.dir_y * ms)][(int)w->player.x_cord] == 0) ?
-			w->player.y_cord -= w->player.dir_y * ms : 0;
-	}
-	else if (key_code == 0x7e)//key up;
-	{
-		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord + w->player.dir_x * ms)] == 0) ?
-			w->player.x_cord += w->player.dir_x * ms: 0;
-		(w->map->map[(int)(w->player.y_cord + w->player.dir_y * ms)][(int)w->player.x_cord] == 0) ?
-			w->player.y_cord += w->player.dir_y * ms : 0;
-	}
-	else if (key_code == 0x7c)//key right
-	{
-		old = w->player.dir_x;
-		w->player.dir_x = w->player.dir_x * cos(-rot) - w->player.dir_y * sin(-rot);
-		w->player.dir_y = old * sin(-rot) + w->player.dir_y * cos(-rot);
-		old = w->player.plane_x;
-		w->player.plane_x = w->player.plane_x * cos(-rot) - w->player.plane_y * sin(-rot);
-		w->player.plane_y = old * sin(-rot) + w->player.plane_y * cos(-rot);
-	}
-	else if (key_code == 0x7b)//key left
-	{
-		old = w->player.dir_x;
-		w->player.dir_x = w->player.dir_x * cos(rot) - w->player.dir_y * sin(rot);
-		w->player.dir_y = old * sin(rot) + w->player.dir_y * cos(rot);
-		old = w->player.plane_x;
-		w->player.plane_x = w->player.plane_x * cos(rot) - w->player.plane_y * sin(rot);
-		w->player.plane_y = old * sin(rot) + w->player.plane_y * cos(rot);
-	}
-}
+//static inline void	wolf3d_move(int key_code, t_wolf *w)
+//{
+//	//need to add in the timeing functions to decouple the rnedering from the
+//	//making the steps smaller will reduce the angle 
+//	//movement speed
+//	double	ms;
+//	double	old;
+//	double	rot;
+//
+//	rot = .3;
+//	ms = 0.05;
+//	if (key_code == 0x7d)//key down
+//	{
+//		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord - w->player.dir_x * ms)] == 0) ?
+//			w->player.x_cord -= w->player.dir_x * ms : 0;
+//		(w->map->map[(int)(w->player.y_cord - w->player.dir_y * ms)][(int)w->player.x_cord] == 0) ?
+//			w->player.y_cord -= w->player.dir_y * ms : 0;
+//	}
+//	else if (key_code == 0x7e)//key up;
+//	{
+//		(w->map->map[(int)w->player.y_cord][(int)(w->player.x_cord + w->player.dir_x * ms)] == 0) ?
+//			w->player.x_cord += w->player.dir_x * ms: 0;
+//		(w->map->map[(int)(w->player.y_cord + w->player.dir_y * ms)][(int)w->player.x_cord] == 0) ?
+//			w->player.y_cord += w->player.dir_y * ms : 0;
+//	}
+//	else if (key_code == 0x7c)//key right
+//	{
+//		old = w->player.dir_x;
+//		w->player.dir_x = w->player.dir_x * cos(-rot) - w->player.dir_y * sin(-rot);
+//		w->player.dir_y = old * sin(-rot) + w->player.dir_y * cos(-rot);
+//		old = w->player.plane_x;
+//		w->player.plane_x = w->player.plane_x * cos(-rot) - w->player.plane_y * sin(-rot);
+//		w->player.plane_y = old * sin(-rot) + w->player.plane_y * cos(-rot);
+//	}
+//	else if (key_code == 0x7b)//key left
+//	{
+//		old = w->player.dir_x;
+//		w->player.dir_x = w->player.dir_x * cos(rot) - w->player.dir_y * sin(rot);
+//		w->player.dir_y = old * sin(rot) + w->player.dir_y * cos(rot);
+//		old = w->player.plane_x;
+//		w->player.plane_x = w->player.plane_x * cos(rot) - w->player.plane_y * sin(rot);
+//		w->player.plane_y = old * sin(rot) + w->player.plane_y * cos(rot);
+//	}
+//}
 
 /*
-** you can find a header will all the key codes that you need on github or
-** manually get them
-**
 ** 0x35 = ESC
 ** 0x7b = KEY_LEFT
 ** 0x7c = KEY_RIGHT
@@ -124,7 +121,31 @@ int		wolf3d_key_press(int key_code, t_wolf *wolf)
 	if (key_code == 0x35)
 		wolf3d_close(wolf);
 	else if (key_code >= 0x7b && key_code <= 0x7e)
-		wolf3d_move(key_code, wolf);
-	raycast_loop_overhead(wolf);
+	{
+		if (key_code == 0x7b)
+			wolf->mlx.keys.key_left = 1;
+		else if (key_code == 0x7c)
+			wolf->mlx.keys.key_right = 1;
+		else if (key_code == 0x7d)
+			wolf->mlx.keys.key_down = 1;
+		else if (key_code == 0x7e)
+			wolf->mlx.keys.key_up = 1;
+	}
+	return (0);
+}
+
+int		wolf3d_key_release(int key_code, t_wolf *wolf)
+{
+	if (key_code >= 0x7b && key_code <= 0x7e)
+	{
+		if (key_code == 0x7b)
+			wolf->mlx.keys.key_left = 0;
+		else if (key_code == 0x7c)
+			wolf->mlx.keys.key_right = 0;
+		else if (key_code == 0x7d)
+			wolf->mlx.keys.key_down = 0;
+		else if (key_code == 0x7e)
+			wolf->mlx.keys.key_up = 0;
+	}
 	return (0);
 }

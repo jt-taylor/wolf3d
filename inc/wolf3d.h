@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/09 17:28:01 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/10 15:55:47 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 /*
 ** MACRO(s[?])
 */
-# define WIN_W 1024
-# define WIN_H 512
+# define WIN_W (1024 * 2)
+# define WIN_H (512 * 2)
 
 /*
 ** the map data
@@ -40,6 +40,10 @@ typedef struct	s_map
 	int		**map;
 }				t_map;
 
+/*
+** Player data
+*/
+
 typedef struct	s_player
 {
 	double	x_cord;
@@ -53,6 +57,10 @@ typedef struct	s_player
 	//inventory ?
 	//modifiers ?
 }				t_player;
+
+/*
+** variables for the raycaster
+*/
 
 typedef struct	s_raycast
 {
@@ -71,6 +79,10 @@ typedef struct	s_raycast
 	int		hit_wall;
 	int		side;
 }				t_raycast;
+
+/*
+** variables for bresenhams line drawing alg
+*/
 
 typedef struct	s_line
 {
@@ -101,16 +113,40 @@ typedef struct	s_shape
 	int		q4y;
 }				t_shape;
 
+/*
+** mlx doesn't currently have a loop for key repeat atm
+** so keypress and keyrelease should toggle variables so the mlx loop
+** can know that a key is being held down
+** one variable for each key that we want to hold down
+*/
+
+typedef struct	s_wolf_mlx_key_hold
+{
+	int			key_up;
+	int			key_down;
+	int			key_left;
+	int			key_right;
+}				t_wolf_mlx_key_hold;
+
+/*
+** all the pointers to use for mlx
+*/
+
 typedef struct	s_wolf_mlx
 {
-	void		*mlx_ptr;
-	void		*window_ptr;
-	void		*img_ptr;
-	char		*data_start;
-	int			bpp;
-	int			endian;
-	int			size_line;
+	void					*mlx_ptr;
+	void					*window_ptr;
+	void					*img_ptr;
+	char					*data_start;
+	int						bpp;
+	int						endian;
+	int						size_line;
+	t_wolf_mlx_key_hold		keys;
 }				t_wolf_mlx;
+
+/*
+** holds all the other structs
+*/
 
 typedef struct	s_wolf
 {
@@ -133,13 +169,6 @@ void			wolf3d_usage_msg(int i, char *str);
 */
 
 t_map				*populate_map_from_file(char *file);
-
-/*
-** 2d_display
-*/
-
-//void		display_2d_grid(t_wolf *wolf);
-//void		wolf_2d_check_adjacent(t_wolf *w, int x, int y);
 
 /*
 ** image_interface.c
@@ -168,6 +197,13 @@ void		wolf3d_init_player(t_wolf *wolf);
 
 int		wolf3d_key_press(int key_code, t_wolf *wolf);
 int		wolf3d_close(void *param);
+int		wolf3d_key_release(int key_code, t_wolf *wolf);
+
+/*
+** mlx_move_options.c
+*/
+
+int			wolf3d_mlx_loop(t_wolf *wolf);
 
 /*
 ** free_the_mlx

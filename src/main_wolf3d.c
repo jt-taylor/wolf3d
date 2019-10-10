@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/09 18:08:28 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/10 15:52:58 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ void		wolf3d_usage_msg(int i, char *str)
 	exit(0);
 }
 
+static inline void	wolf_3d_init_keys(t_wolf *wolf)
+{
+	wolf->mlx.keys.key_left = 0;
+	wolf->mlx.keys.key_right = 0;
+	wolf->mlx.keys.key_up = 0;
+	wolf->mlx.keys.key_down = 0;
+}
+
 /*
 ** This initializes the all of the components of the mlx img functionality
 ** you don't have to use mlx_image but it's significantly faster than
@@ -59,6 +67,7 @@ static void	wolf3d_init_mlx(t_wolf *wolf, char *name)
 	wolf->mlx.img_ptr = mlx_new_image(wolf->mlx.mlx_ptr, WIN_W, WIN_H);
 	wolf->mlx.data_start = mlx_get_data_addr(wolf->mlx.img_ptr,
 			&wolf->mlx.bpp, &wolf->mlx.size_line, &wolf->mlx.endian);
+	wolf_3d_init_keys(wolf);
 }
 
 int			main(int ac, char **argv)
@@ -73,12 +82,12 @@ int			main(int ac, char **argv)
 		wolf3d_usage_msg(0, "Specify exactly one map file");
 	wolf->map = populate_map_from_file(argv[1]);
 	wolf3d_init_mlx(wolf, argv[1]);
-	//test(wolf);
 	wolf3d_init_player(wolf);
-	//display_2d_grid(wolf);
 	raycast_loop_overhead(wolf);
-	mlx_key_hook(wolf->mlx.window_ptr, wolf3d_key_press, wolf);
+	mlx_hook(wolf->mlx.window_ptr, 2, (1L << 0), wolf3d_key_press, wolf);
+	mlx_hook(wolf->mlx.window_ptr, 3, (1L << 1), wolf3d_key_release, wolf);
 	mlx_hook(wolf->mlx.window_ptr, 17, 0, wolf3d_close, wolf);
+	mlx_loop_hook(wolf->mlx.mlx_ptr, wolf3d_mlx_loop, wolf);
 	mlx_loop(wolf->mlx.mlx_ptr);
 	return (0);
 }
