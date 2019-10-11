@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/09 20:13:41 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 12:56:48 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,15 @@
 ** it's a good idea to have the outermost layer of the map be 1 (or any wall)
 ** 	the raycaster should handle it if it isn't but you can
 ** 		never get all of the edge cases
+** try to make sure the map is enclosed in walls , the raycaster won't crash but
+** 	it looks a bit buggy , could improve it but i think the modus operandi is
+** 	on making a map that has no walls
+** 		the raycaster will calculate missing walls at either (0, 0) or
+** 		(width - 1, height - 1) ,
+** 		so it doesn't segfault from accesing outside of the int ** array, 
+** 		the intersections of walls are unaligned in this case
+** try not to start inside a wall boundry if (1, 1) facing (0, 0) , -->
+** 		doesn't display the wall while inside it
 */
 
 // if we get to an error here we don't end up free'ing everything
@@ -64,7 +73,6 @@ static inline void	grab_start_cord(int fd, char **arr, t_map *map)
 	char	**split;
 
 	if (!arr[0] || !arr[1])
-		//exit erorr;
 		wolf3d_usage_msg(3, "dimensions not provided by input file");
 	map->width = ft_atoi(arr[0]);
 	map->height = ft_atoi(arr[1]);
@@ -78,6 +86,8 @@ static inline void	grab_start_cord(int fd, char **arr, t_map *map)
 		wolf3d_usage_msg(3, "starting (x,y) must be between 0 && width");
 	if (map->ystart <= 0 || map->ystart >= map->width)
 		wolf3d_usage_msg(3, "starting (x,y) must be between 0 && width");
+	free(line);
+	ft_freestrarr(split);
 }
 
 /*
@@ -98,7 +108,8 @@ static t_map	*get_dimensions(char *file)
 	get_next_line(tmp->fd, &line);
 	if (!line || !tmp)
 		//exit error read map;
-		wolf3d_usage_msg(2, "erorr reading from file || t_map failed malloc");
+		wolf3d_usage_msg(2, "erorr reading from file || less much less likely\
+				t_map failed malloc");
 	arr = ft_strsplit(line, ' ');
 	grab_start_cord(tmp->fd, arr, tmp);
 	ft_freestrarr(arr);
@@ -153,7 +164,9 @@ t_map				*populate_map_from_file(char *file)
 		wolf3d_usage_msg(0, "input dimensios must be greater then 10 on\
 				either axis");
 	tmp->map = get_map_data(tmp);
-	tmp->xco = (WIN_W / tmp->width);
-	tmp->yco = (WIN_H / tmp->height);
+	if (tmp->map[tmp->ystart][tmp->xstart] != 0)
+		wolf3d_usage_msg(2, "x / y start_cordinates are not 0");
+//	tmp->xco = (WIN_W / tmp->width);
+//	tmp->yco = (WIN_H / tmp->height);
 	return (tmp);
 }

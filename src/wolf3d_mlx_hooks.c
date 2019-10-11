@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:38:56 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/10 16:03:05 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 11:03:38 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ static inline void	free_int_matrix(t_wolf *w)
 }
 
 /*
-** so there isn't a painless way to free all of the mlx pointers
 ** minilibx doesn't supply a way to free the mlx_ptr returned from mlx_init
 ** the mlx_ptr->font->buffer and the mlx_ptr->font become leaks if you
-** free the mlx_ptr without doing something like this
+** free the mlx_ptr without manually freeing them
 */
 
 static inline void	free_the_things(t_wolf *w)

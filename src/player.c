@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 12:42:29 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/10 16:13:13 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 11:22:26 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	wolf3d_init_player(t_wolf *wolf)
 	wolf->player.dir_x = -1.0;
 	wolf->player.dir_y = 1.0;
 	wolf->player.plane_x = 0.0;
-	wolf->player.plane_y = .67;
+	wolf->player.plane_y = 1.0;
 }

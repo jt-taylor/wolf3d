@@ -1,0 +1,16 @@
+invalid/* maps are invalid maps used to check for segfaults
+here is a list of what each map file is checking
+ -------------------------------------------------------------------------------
+test.txt				|	check no starting cordinates
+test2.txt				|	check map smaller then size values
+test3.txt				|	check lines differing # of values
+test_map.txt			|	check starting in wall / no non wall map values
+test_map3.txt			|	check map not enclosed in walls
+
+ -------------------------------------------------------------------------------
+
+valid/* maps are valid maps that you can play on
+here are where the valid maps are sourced from
+ -------------------------------------------------------------------------------
+testing_map.txt			|	mostly open with some basic wall configurations
+empty_recktangle.txt	|	an empty recktangle

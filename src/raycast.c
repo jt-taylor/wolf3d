@@ -6,15 +6,17 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/09 09:55:44 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 12:41:01 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
 /*
-** init's the values for each column along the screen
-** runs once for each column in the window
+** these functions perform the raycasting part of the project ,
+** if you don't know what raycasting is look it up , a youtube video is gonna
+** 	go in much more depth then my commented code will
+** see populate map for how this handles missing walls
 */
 
 static inline void	ray(t_wolf *w, int x)
@@ -39,39 +41,57 @@ static inline void	ray(t_wolf *w, int x)
 /*
 ** calculates the values for the dda alg;
 ** (delta distance alg);
+** left // right
+** up // down
 */
 
 static inline void	dda_calc(t_wolf *w)
 {
-	//left
 	if (w->r.ray_dir_x < 0)
 	{
 		w->r.step_x = -1;
-		w->r.dist_to_side_x = (w->player.x_cord - w->r.map_pos_x) * w->r.change_dist_x;
+		w->r.dist_to_side_x =
+			(w->player.x_cord - w->r.map_pos_x) * w->r.change_dist_x;
 	}
-	//right
 	else
 	{
 		w->r.step_x = 1;
-		w->r.dist_to_side_x = (w->r.map_pos_x + 1.0 - w->player.x_cord) * w->r.change_dist_x;
+		w->r.dist_to_side_x =
+			(w->r.map_pos_x + 1.0 - w->player.x_cord) * w->r.change_dist_x;
 	}
-	//up
 	if (w->r.ray_dir_y < 0)
 	{
 		w->r.step_y = -1;
-		w->r.dist_to_side_y = (w->player.y_cord - w->r.map_pos_y) * w->r.change_dist_y;
+		w->r.dist_to_side_y =
+			(w->player.y_cord - w->r.map_pos_y) * w->r.change_dist_y;
 	}
-	//down
 	else
 	{
 		w->r.step_y = 1;
-		w->r.dist_to_side_y = (w->r.map_pos_y + 1.0 - w->player.y_cord) * w->r.change_dist_y;
+		w->r.dist_to_side_y =
+			(w->r.map_pos_y + 1.0 - w->player.y_cord) * w->r.change_dist_y;
 	}
 }
 
 /*
 ** actually run dda
 */
+
+static inline void	dda_protect_no_wall(t_wolf *w, int opt)
+{
+	if (opt)
+	{
+		w->r.map_pos_x = w->map->width - 1;
+		w->r.map_pos_y = w->map->height - 1;
+		w->r.hit_wall = 1;
+	}
+	else
+	{
+		w->r.map_pos_x = 0;
+		w->r.map_pos_y = 0;
+		w->r.hit_wall = 1;
+	}
+}
 
 static inline void	dda_run(t_wolf *w)
 {
@@ -89,14 +109,12 @@ static inline void	dda_run(t_wolf *w)
 			w->r.map_pos_y += w->r.step_y;
 			w->r.side = 1;
 		}
-		//need to protect agains out of array access
-		//or require the map to be inclosed in walls
-		if (w->r.map_pos_y >= w->map->height || w->r.map_pos_x >= w->map->width)
-		{
-			w->r.map_pos_x = w->map->width - 1;
-			w->r.map_pos_y = w->map->height - 1;
-			w->r.hit_wall = 1;
-		}
+		if (w->r.map_pos_y >= w->map->height ||
+					w->r.map_pos_x >= w->map->width ||
+					w->r.map_pos_x < 0 || w->r.map_pos_y < 0)
+			(w->r.map_pos_y >= w->map->height ||
+			 w->r.map_pos_x >= w->map->width)
+				? dda_protect_no_wall(w, 1) : dda_protect_no_wall(w, 0);
 		else if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
 			w->r.hit_wall = 1;
 	}
@@ -123,17 +141,14 @@ static inline void	calc_line_height(t_wolf *w)
 		w->line->yfinal = WIN_H - 1;
 }
 
-/*
-** calculates the perpindicular distance to the wall rather than the actual distance
-** when extremely close to a wall (~15 digits after 0) the wall displays a lil buggy
-*/
-
 static inline void	distance_to_wall_and_line_height(t_wolf *w)
 {
 	if (w->r.side == 0)
-		w->r.pepindicular = (w->r.map_pos_x - w->player.x_cord + (1 - w->r.step_x) / 2) / w->r.ray_dir_x;
+		w->r.pepindicular = (w->r.map_pos_x - w->player.x_cord +
+				(1 - w->r.step_x) / 2) / w->r.ray_dir_x;
 	else
-		w->r.pepindicular = (w->r.map_pos_y - w->player.y_cord + (1 - w->r.step_y) / 2) / w->r.ray_dir_y;
+		w->r.pepindicular = (w->r.map_pos_y - w->player.y_cord +
+				(1 - w->r.step_y) / 2) / w->r.ray_dir_y;
 	calc_line_height(w);
 }
 
@@ -165,11 +180,8 @@ static inline void				raycast_loop(t_wolf *wolf)
 
 void				raycast_loop_overhead(t_wolf *w)
 {
-//	while (1)
-	{
-		raycast_loop(w);
-		mlx_put_image_to_window(w->mlx.mlx_ptr, w->mlx.window_ptr,
-				w->mlx.img_ptr, 0, 0);
-		ft_bzero(w->mlx.data_start, (WIN_W * WIN_H * 4));
-	}
+	raycast_loop(w);
+	mlx_put_image_to_window(w->mlx.mlx_ptr, w->mlx.window_ptr,
+			w->mlx.img_ptr, 0, 0);
+	ft_bzero(w->mlx.data_start, (WIN_W * WIN_H * 4));
 }
