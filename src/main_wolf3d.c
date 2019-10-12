@@ -6,31 +6,29 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/10 15:52:58 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 18:49:09 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
 /*
-** not sure how I want to store the maps yet ,
+** the map is a 2d int array
 **
-** the map is 2d (a la wolfenstein hence raycasting)
-** raycasting only needs to calculate for each column on the scren
-**
-** there are quite a few projects on github that showoff raycasting ;
-**
-** links : (standard link disclaimer , i dont own or maintain these)
+** links i thought were relevent
+**	: (standard link disclaimer , i dont own or maintain these)
 **		2d raycasting ----------------------------------------------------------
-**	https://lodev.org/cgtutor/raycasting.html (this goes over wolfensteins
-**			raycasting specificaly)
 **	https://ncase.me/sight-and-light/
 **	https://www.redblobgames.com/articles/visibility/
+**	https://lodev.org/cgtutor/raycasting.html
 **	https://www.youtube.com/watch?v=TOEi6T2mtHo
 **	^^ https://www.youtube.com/watch?v=vYgIKn7iDH8 ------------------------------
+** bitmaps and XPM
+** https://www.xfree86.org/current/xpm.pdf -- XPM manual 38 pages
+** http://paulbourke.net/dataformats/bitmaps/
 **
 ** blinky project ---------------------------------------------------------------
-** not super relevent but i thought it was cool
+** not super relevent to raycasting but explores the camera
 ** exploration of peripharol vision using the quake demo
 ** https://www.youtube.com/watch?v=f9v_XN7Wxh8
 ** https://github.com/shaunlebron/blinky
@@ -49,15 +47,6 @@ static inline void	wolf_3d_init_keys(t_wolf *wolf)
 	wolf->mlx.keys.key_up = 0;
 	wolf->mlx.keys.key_down = 0;
 }
-
-/*
-** This initializes the all of the components of the mlx img functionality
-** you don't have to use mlx_image but it's significantly faster than
-** just using mlx's builtin pixel_put
-**
-** Technicaly I'm allowed to use other librarys but only what has counter-
-** parts with the mlx lib. so ..?
-*/
 
 static void	wolf3d_init_mlx(t_wolf *wolf, char *name)
 {

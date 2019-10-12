@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/10 15:55:47 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 17:58:38 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct	s_map
 	int		width;
 	int		xstart;
 	int		ystart;
-	int		xco;
-	int		yco;
+//	int		xco;
+//	int		yco;
 	int		fd;
 	int		**map;
 }				t_map;

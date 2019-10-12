@@ -6,17 +6,17 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:47:40 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/05 16:00:20 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 19:02:33 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
 /*
-** there isn't a way to make this cleaner in norme ,
-** because norme limits the total number of variables we kinda just have to
-** throw everything into a struct
+** this is the standard bresenham line drawing alg
+** will need to replace this to handle textures .
 */
+
 void		ft_mlx_draw_line(t_line *l, t_wolf *wolf)
 {
 	l->dx = abs(l->xfinal - l->xstart);

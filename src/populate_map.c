@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 12:56:48 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 15:34:23 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,39 @@
 ** 		doesn't display the wall while inside it
 */
 
-// if we get to an error here we don't end up free'ing everything
+
+static inline void	wolf3d_free_map_norm(char *line, char **split)
+{
+	free(line);
+	ft_freestrarr(split);
+}
 
 static inline void	grab_start_cord(int fd, char **arr, t_map *map)
 {
 	char	*line;
 	char	**split;
 
-	if (!arr[0] || !arr[1])
-		wolf3d_usage_msg(3, "dimensions not provided by input file");
 	map->width = ft_atoi(arr[0]);
 	map->height = ft_atoi(arr[1]);
 	get_next_line(fd, &line);
 	split = ft_strsplit(line, ' ');
 	if (split[2] || !split[0] || !split[1])
-		wolf3d_usage_msg(3, "erorr reading (x,y) start");
-	map->xstart = ft_atoi(split[0]);
-	map->ystart = ft_atoi(split[1]);
-	if (map->xstart <= 0 || map->xstart >= map->width)
-		wolf3d_usage_msg(3, "starting (x,y) must be between 0 && width");
-	if (map->ystart <= 0 || map->ystart >= map->width)
-		wolf3d_usage_msg(3, "starting (x,y) must be between 0 && width");
-	free(line);
-	ft_freestrarr(split);
+	{
+		wolf3d_free_map_norm(line, split);
+		wolf3d_usage_msg(2, "erorr reading (x,y) start");
+	}
+	else
+	{
+		map->xstart = ft_atoi(split[0]);
+		map->ystart = ft_atoi(split[1]);
+		if (map->xstart <= 0 || map->xstart >= map->width ||
+				map->ystart <= 0 || map->ystart >= map->width)
+		{
+		wolf3d_free_map_norm(line, split);
+			wolf3d_usage_msg(2, "starting (x,y) must be between 0 && width");
+		}
+	}
+	wolf3d_free_map_norm(line, split);
 }
 
 /*
@@ -103,15 +113,19 @@ static t_map	*get_dimensions(char *file)
 
 	tmp = (t_map *)malloc(sizeof(t_map));
 	if (!(tmp->fd = open(file, O_RDONLY)))
-		// open error;
+	{
+		free(tmp);
 		wolf3d_usage_msg(2, "error opening file");
+	}
 	get_next_line(tmp->fd, &line);
 	if (!line || !tmp)
-		//exit error read map;
 		wolf3d_usage_msg(2, "erorr reading from file || less much less likely\
 				t_map failed malloc");
 	arr = ft_strsplit(line, ' ');
-	grab_start_cord(tmp->fd, arr, tmp);
+	if (!arr[0] || !arr[1])
+		ft_dprintf(2, "dimensions not provided by input file");
+	else
+		grab_start_cord(tmp->fd, arr, tmp);
 	ft_freestrarr(arr);
 	free(line);
 	return (tmp);
@@ -165,8 +179,9 @@ t_map				*populate_map_from_file(char *file)
 				either axis");
 	tmp->map = get_map_data(tmp);
 	if (tmp->map[tmp->ystart][tmp->xstart] != 0)
+	{
+
 		wolf3d_usage_msg(2, "x / y start_cordinates are not 0");
-//	tmp->xco = (WIN_W / tmp->width);
-//	tmp->yco = (WIN_H / tmp->height);
+	}
 	return (tmp);
 }

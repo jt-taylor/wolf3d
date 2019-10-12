@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 12:41:01 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/11 16:55:54 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ static inline void	distance_to_wall_and_line_height(t_wolf *w)
 	else
 		w->r.pepindicular = (w->r.map_pos_y - w->player.y_cord +
 				(1 - w->r.step_y) / 2) / w->r.ray_dir_y;
+	if (w->r.pepindicular == 0)
+		w->r.pepindicular += .00001;
 	calc_line_height(w);
 }
 
@@ -163,12 +165,9 @@ static inline void				raycast_loop(t_wolf *wolf)
 	x = 0;
 	while (x < WIN_W)
 	{
-		// these check for wall
 		ray(wolf, x);
 		dda_calc(wolf);
 		dda_run(wolf);
-		//calculate the distance to wall;
-		//and how big of a line to draw;
 		distance_to_wall_and_line_height(wolf);
 		wolf->line->xstart = x;
 		wolf->line->xfinal = x;
