@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 16:55:54 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/14 18:15:58 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static inline void	dda_run(t_wolf *w)
 					w->r.map_pos_x >= w->map->width ||
 					w->r.map_pos_x < 0 || w->r.map_pos_y < 0)
 			(w->r.map_pos_y >= w->map->height ||
-			 w->r.map_pos_x >= w->map->width)
+			w->r.map_pos_x >= w->map->width)
 				? dda_protect_no_wall(w, 1) : dda_protect_no_wall(w, 0);
 		else if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
 			w->r.hit_wall = 1;
@@ -158,7 +158,7 @@ static inline void	distance_to_wall_and_line_height(t_wolf *w)
 ** using delta distance alg
 */
 
-static inline void				raycast_loop(t_wolf *wolf)
+static inline void	raycast_loop(t_wolf *wolf)
 {
 	int		x;
 
@@ -172,7 +172,6 @@ static inline void				raycast_loop(t_wolf *wolf)
 		wolf->line->xstart = x;
 		wolf->line->xfinal = x;
 		ft_mlx_draw_line(wolf->line, wolf);
-		//fill in texture later
 		x++;
 	}
 }

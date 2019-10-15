@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:27:38 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 18:49:09 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/14 21:14:27 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@
 **	https://www.redblobgames.com/articles/visibility/
 **	https://lodev.org/cgtutor/raycasting.html
 **	https://www.youtube.com/watch?v=TOEi6T2mtHo
-**	^^ https://www.youtube.com/watch?v=vYgIKn7iDH8 ------------------------------
+**	^^ https://www.youtube.com/watch?v=vYgIKn7iDH8 -----------------------------
 ** bitmaps and XPM
 ** https://www.xfree86.org/current/xpm.pdf -- XPM manual 38 pages
 ** http://paulbourke.net/dataformats/bitmaps/
 **
-** blinky project ---------------------------------------------------------------
+** blinky project --------------------------------------------------------------
 ** not super relevent to raycasting but explores the camera
 ** exploration of peripharol vision using the quake demo
 ** https://www.youtube.com/watch?v=f9v_XN7Wxh8
 ** https://github.com/shaunlebron/blinky
 */
 
-void		wolf3d_usage_msg(int i, char *str)
+void				wolf3d_usage_msg(int i, char *str)
 {
 	ft_dprintf(2, "err_string: %s\nerr_code: %i\n", str, i);
 	exit(0);
@@ -48,7 +48,7 @@ static inline void	wolf_3d_init_keys(t_wolf *wolf)
 	wolf->mlx.keys.key_down = 0;
 }
 
-static void	wolf3d_init_mlx(t_wolf *wolf, char *name)
+static void			wolf3d_init_mlx(t_wolf *wolf, char *name)
 {
 	wolf->mlx.mlx_ptr = mlx_init();
 	wolf->mlx.window_ptr =
@@ -59,7 +59,7 @@ static void	wolf3d_init_mlx(t_wolf *wolf, char *name)
 	wolf_3d_init_keys(wolf);
 }
 
-int			main(int ac, char **argv)
+int					main(int ac, char **argv)
 {
 	t_wolf	*wolf;
 
@@ -72,6 +72,7 @@ int			main(int ac, char **argv)
 	wolf->map = populate_map_from_file(argv[1]);
 	wolf3d_init_mlx(wolf, argv[1]);
 	wolf3d_init_player(wolf);
+	basic_texture_handle(wolf);
 	raycast_loop_overhead(wolf);
 	mlx_hook(wolf->mlx.window_ptr, 2, (1L << 0), wolf3d_key_press, wolf);
 	mlx_hook(wolf->mlx.window_ptr, 3, (1L << 1), wolf3d_key_release, wolf);

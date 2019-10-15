@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 17:58:38 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/14 21:09:21 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 */
 # define WIN_W (1024 * 2)
 # define WIN_H (512 * 2)
+# define TEX_SIZE 64
 
 /*
 ** the map data
@@ -34,8 +35,6 @@ typedef struct	s_map
 	int		width;
 	int		xstart;
 	int		ystart;
-//	int		xco;
-//	int		yco;
 	int		fd;
 	int		**map;
 }				t_map;
@@ -54,8 +53,6 @@ typedef struct	s_player
 	double	plane_y;
 	double	time;
 	double	old_time;
-	//inventory ?
-	//modifiers ?
 }				t_player;
 
 /*
@@ -79,6 +76,21 @@ typedef struct	s_raycast
 	int		hit_wall;
 	int		side;
 }				t_raycast;
+
+/*
+** texture data
+*/
+
+typedef struct	s_texture
+{
+//	int			bpp;
+//	int			sizeline;
+//	int			endian;
+//	void		*img;
+//	char		*data;
+	int			texture[TEX_SIZE][TEX_SIZE];
+
+}				t_texture;
 
 /*
 ** variables for bresenhams line drawing alg
@@ -156,6 +168,7 @@ typedef struct	s_wolf
 	t_line		*line;
 	t_shape		*shape;
 	t_raycast	r;
+	t_texture	tex[4];
 }				t_wolf;
 
 /*
@@ -177,6 +190,8 @@ t_map				*populate_map_from_file(char *file);
 void		test(t_wolf *wolf);
 void		ft_mlx_draw_line(t_line *l, t_wolf *wolf);
 void		ft_mlx_pixel_put(t_wolf *wolf, int x_cord, int y_cord);
+void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
+		int texture_code);
 void		ft_mlx_draw_quad(t_wolf *wolf, t_shape *shape);
 
 /*
@@ -210,5 +225,11 @@ int			wolf3d_mlx_loop(t_wolf *wolf);
 */
 
 void	free_mlx_ptr(void *mlx_ptr);
+
+/*
+** basic_textures.c
+*/
+
+void		basic_texture_handle(t_wolf *wolf);
 
 #endif

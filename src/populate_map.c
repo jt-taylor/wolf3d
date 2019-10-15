@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 15:34:23 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/14 18:16:56 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,11 @@
 ** 	on making a map that has no walls
 ** 		the raycaster will calculate missing walls at either (0, 0) or
 ** 		(width - 1, height - 1) ,
-** 		so it doesn't segfault from accesing outside of the int ** array, 
+** 		so it doesn't segfault from accesing outside of the int ** array,
 ** 		the intersections of walls are unaligned in this case
 ** try not to start inside a wall boundry if (1, 1) facing (0, 0) , -->
 ** 		doesn't display the wall while inside it
 */
-
 
 static inline void	wolf3d_free_map_norm(char *line, char **split)
 {
@@ -93,7 +92,7 @@ static inline void	grab_start_cord(int fd, char **arr, t_map *map)
 		if (map->xstart <= 0 || map->xstart >= map->width ||
 				map->ystart <= 0 || map->ystart >= map->width)
 		{
-		wolf3d_free_map_norm(line, split);
+			wolf3d_free_map_norm(line, split);
 			wolf3d_usage_msg(2, "starting (x,y) must be between 0 && width");
 		}
 	}
@@ -105,7 +104,7 @@ static inline void	grab_start_cord(int fd, char **arr, t_map *map)
 ** and grabs the supplied width / height dimensions;
 */
 
-static t_map	*get_dimensions(char *file)
+static t_map		*get_dimensions(char *file)
 {
 	char	*line;
 	char	**arr;
@@ -131,7 +130,7 @@ static t_map	*get_dimensions(char *file)
 	return (tmp);
 }
 
-static void		parse_line(char **arr, int *l, t_map *tmp)
+static void			parse_line(char **arr, int *l, t_map *tmp)
 {
 	int		x;
 	int		fail;
@@ -147,7 +146,7 @@ static void		parse_line(char **arr, int *l, t_map *tmp)
 	}
 }
 
-static int		**get_map_data(t_map *tmp)
+static int			**get_map_data(t_map *tmp)
 {
 	int		**map;
 	char	*line;
@@ -180,7 +179,6 @@ t_map				*populate_map_from_file(char *file)
 	tmp->map = get_map_data(tmp);
 	if (tmp->map[tmp->ystart][tmp->xstart] != 0)
 	{
-
 		wolf3d_usage_msg(2, "x / y start_cordinates are not 0");
 	}
 	return (tmp);

@@ -6,13 +6,11 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:38:56 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/11 15:17:36 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/14 18:17:32 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-//#include <OpenGL/gl3.h>
-//#include "mlx_int.h"
 
 static inline void	free_int_matrix(t_wolf *w)
 {
@@ -35,10 +33,8 @@ static inline void	free_int_matrix(t_wolf *w)
 
 static inline void	free_the_things(t_wolf *w)
 {
-	// ? free data_start / not sure if mlx_destroy image_does this
 	mlx_destroy_image(w->mlx.mlx_ptr, w->mlx.img_ptr);
 	mlx_destroy_window(w->mlx.mlx_ptr, w->mlx.window_ptr);
-	//free(w->mlx.mlx_ptr);
 	free_mlx_ptr(w->mlx.mlx_ptr);
 	free_int_matrix(w);
 	free(w->map);
@@ -46,12 +42,9 @@ static inline void	free_the_things(t_wolf *w)
 	free(w);
 }
 
-int		wolf3d_close(void *param)
+int					wolf3d_close(void *param)
 {
 	free_the_things((t_wolf *)param);
-	//free everything that I malloc'd
-	//and posibly what mlx malloc'd
-	//everything I malloc'd should be free'd here
 	exit(0);
 }
 
@@ -67,7 +60,7 @@ int		wolf3d_close(void *param)
 ** 0x7e = KEY_UP
 */
 
-int		wolf3d_key_press(int key_code, t_wolf *wolf)
+int					wolf3d_key_press(int key_code, t_wolf *wolf)
 {
 	if (key_code == 0x35)
 		wolf3d_close(wolf);
@@ -85,7 +78,7 @@ int		wolf3d_key_press(int key_code, t_wolf *wolf)
 	return (0);
 }
 
-int		wolf3d_key_release(int key_code, t_wolf *wolf)
+int					wolf3d_key_release(int key_code, t_wolf *wolf)
 {
 	if (key_code >= 0x7b && key_code <= 0x7e)
 	{
