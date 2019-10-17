@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 18:26:21 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/14 21:28:25 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/17 14:40:24 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,32 @@
 ** solid color blocks
 */
 
-static inline void	basic_texture_gen(t_wolf *w)
+static inline void	load_pattern1(t_wolf *w, int tex_number, int color)
 {
 	int		x;
 	int		y;
 
 	x = 0;
 	y = 0;
-	while (y < TEX_SIZE)
+	while (y < TEX_HEIGHT)
 	{
 		x = 0;
-		while (x < TEX_SIZE)
+		while (x < TEX_WIDTH)
 		{
-			if (x % 2 == 0)
-			{
-				w->tex[0].texture[y][x] = 0x0066ff;
-				w->tex[1].texture[y][x] = 0xff0000;
-				w->tex[2].texture[y][x] = 0x003300;
-				w->tex[3].texture[y][x] = 0xff0009;
-			}
+			if (y % 2 == 0)
+				w->tex[tex_number].texture[y][x] = color;
 			else
-			{
-				w->tex[0].texture[y][x] = 0x00;
-				w->tex[1].texture[y][x] = 0x00;
-				w->tex[2].texture[y][x] = 0x00;
-				w->tex[3].texture[y][x] = 0x00;
-			}
+				w->tex[tex_number].texture[y][x] = 0x00;
 			x++;
 		}
 		y++;
 	}
 }
 
-void		basic_texture_handle(t_wolf *wolf)
+void		basic_texture_handle(t_wolf *w)
 {
-	basic_texture_gen(wolf);
+	load_pattern1(w, 1, 0xff0000);
+	load_pattern1(w, 2, 0x00ff00);
+	load_pattern1(w, 3, 0x0000ff);
+	load_pattern1(w, 0, 0xffffff);
 }

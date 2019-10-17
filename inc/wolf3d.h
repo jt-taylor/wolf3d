@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/14 21:09:21 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/17 14:19:18 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 /*
 ** MACRO(s[?])
 */
-# define WIN_W (1024 * 2)
-# define WIN_H (512 * 2)
-# define TEX_SIZE 64
+# define WIN_W (1024)
+# define WIN_H (512)
+# define TEX_HEIGHT 512
+# define TEX_WIDTH 512
 
 /*
 ** the map data
@@ -51,8 +52,8 @@ typedef struct	s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
-	double	time;
-	double	old_time;
+//	double	time;
+//	double	old_time;
 }				t_player;
 
 /*
@@ -75,6 +76,7 @@ typedef struct	s_raycast
 	int		step_y;
 	int		hit_wall;
 	int		side;
+	int		tex_x_value;
 }				t_raycast;
 
 /*
@@ -88,8 +90,9 @@ typedef struct	s_texture
 //	int			endian;
 //	void		*img;
 //	char		*data;
-	int			texture[TEX_SIZE][TEX_SIZE];
-
+	int			x;
+	int			y;
+	int			texture[TEX_HEIGHT][TEX_WIDTH];
 }				t_texture;
 
 /*
@@ -169,6 +172,7 @@ typedef struct	s_wolf
 	t_shape		*shape;
 	t_raycast	r;
 	t_texture	tex[4];
+	int			tex_code;
 }				t_wolf;
 
 /*
@@ -191,8 +195,9 @@ void		test(t_wolf *wolf);
 void		ft_mlx_draw_line(t_line *l, t_wolf *wolf);
 void		ft_mlx_pixel_put(t_wolf *wolf, int x_cord, int y_cord);
 void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
-		int texture_code);
+		int color);
 void		ft_mlx_draw_quad(t_wolf *wolf, t_shape *shape);
+void		ft_draw_line_textured(t_wolf *w, int ystart, int yend, int line_height, int x);
 
 /*
 ** raycast.c

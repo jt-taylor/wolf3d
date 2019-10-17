@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/14 18:15:58 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/17 14:45:01 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,39 @@ static inline void	dda_protect_no_wall(t_wolf *w, int opt)
 	}
 }
 
+//static inline void	calculate_teture_code(t_wolf *w)
+//{
+//	int		i;
+//
+//	i = 0;
+//	if (w->r.step_x > 0 && w->r.step_y > 0)
+//		i = 1;
+//	else if (w->r.step_x < 0 && w->r.step_y > 0)
+//		i = 2;
+//	else if (w->r.step_x > 0 && w->r.step_y < 0)
+//		i = 3;
+//	else if (w->r.step_x < 0 && w->r.step_y < 0)
+//		i = 0;
+//	w->tex_code = i;
+//	w->tex[w->tex_code].y = 0;
+//	w->r.hit_wall = 1;
+//}
+
+static inline void	calc_line_texture(t_wolf *w)
+{
+	double		which_wall;
+	int			tex_x_value;
+	if (w->r.side == 0)
+		which_wall = w->r.map_pos_y + w->r.pepindicular * w->r.ray_dir_y;
+	else
+		which_wall = w->r.map_pos_x + w->r.pepindicular * w->r.ray_dir_x;
+	which_wall -= (int)(which_wall);
+	tex_x_value = (int)(which_wall * (double)TEX_WIDTH);
+	if ((w->r.side == 0 && w->r.ray_dir_x > 0) || (w->r.side == 1 && w->r.ray_dir_y < 0))
+		tex_x_value = TEX_WIDTH - tex_x_value - 1;
+	w->r.tex_x_value = (tex_x_value >= TEX_WIDTH) ? TEX_WIDTH - 1 : tex_x_value;
+}
+
 static inline void	dda_run(t_wolf *w)
 {
 	while (w->r.hit_wall == 0)
@@ -116,7 +149,10 @@ static inline void	dda_run(t_wolf *w)
 			w->r.map_pos_x >= w->map->width)
 				? dda_protect_no_wall(w, 1) : dda_protect_no_wall(w, 0);
 		else if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
+		{
+			//calculate_teture_code(w);
 			w->r.hit_wall = 1;
+		}
 	}
 }
 
@@ -158,20 +194,25 @@ static inline void	distance_to_wall_and_line_height(t_wolf *w)
 ** using delta distance alg
 */
 
-static inline void	raycast_loop(t_wolf *wolf)
+static inline void	raycast_loop(t_wolf *w)
 {
 	int		x;
 
 	x = 0;
 	while (x < WIN_W)
 	{
-		ray(wolf, x);
-		dda_calc(wolf);
-		dda_run(wolf);
-		distance_to_wall_and_line_height(wolf);
-		wolf->line->xstart = x;
-		wolf->line->xfinal = x;
-		ft_mlx_draw_line(wolf->line, wolf);
+		ray(w, x);
+		dda_calc(w);
+		dda_run(w);
+		distance_to_wall_and_line_height(w);
+		w->line->xstart = x;
+		w->line->xfinal = x;
+//		calculate_teture_code(w);
+		w->tex_code = 0;
+		calc_line_texture(w);
+	//	ft_mlx_draw_line(w->line, w);
+		ft_draw_line_textured(w, w->line->ystart, w->line->yfinal, (w->line->yfinal - w->line->ystart), x);
+		//w->tex[w->tex_code].x = (w->tex[w->tex_code].x >= TEX_SIZE) ? x++ : 0;
 		x++;
 	}
 }
