@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 18:26:21 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 10:47:13 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/18 16:48:03 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@
 ** 	will get rounded over depending on the distance // angle
 ** flat colors are much less effort to get lookng nice cause the don't distort
 */
-
-
-
-// remember to free the textures
 
 /*
 ** gridlines
@@ -70,7 +66,7 @@ static void	load_pattern2(t_wolf *w, int tex_number, int color,
 		x = 0;
 		while (x < TEX_WIDTH)
 		{
-			if (y % 16 == 0)
+			if (y % 16 == 0 || y % 16 == 1 || y % 16 == 2)
 				w->tex[tex_number].texture[y][x] = color;
 			else
 				w->tex[tex_number].texture[y][x] = color2;
@@ -105,14 +101,40 @@ static void	load_pattern3(t_wolf *w, int tex_number, int color,
 	}
 }
 
+static void	load_pattern4(t_wolf *w, int tex_number, int color,
+		int unused)
+{
+	int		x;
+	int		y;
+	int		ycolor;
+
+	(void)unused;
+	y = 0;
+	while (y < TEX_HEIGHT)
+	{
+		ycolor = 256 * y / TEX_HEIGHT;
+		x = 0;
+		while (x < TEX_WIDTH)
+		{
+			w->tex[tex_number].texture[y][x] = color * ycolor;
+			x++;
+		}
+		y++;
+	}
+}
+
+/*
+** fills in the texture arrays
+*/
 
 void		basic_texture_handle(t_wolf *w)
 {
+	load_pattern1(w, 0, 0xff0000, 0x000000);
 	load_pattern2(w, 0, 0xffffff, 0x000000);
-	load_pattern1(w, 1, 0xff0000, 0x000000);
-	load_pattern1(w, 2, 0x00ff00, 0x000000);
+	load_pattern1(w, 0, 0x00ff00, 0x000000);
 	load_pattern3(w, 0, 0xff0000, 0x000000);
 	load_pattern3(w, 1, 0x00ff00, 0x000000);
 	load_pattern3(w, 2, 0x0000ff, 0x000000);
 	load_pattern3(w, 3, 0xffffff, 0x000000);
+	load_pattern4(w, 3, 0xff0000, 0x000000);
 }

@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/17 19:49:01 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/18 15:21:25 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ typedef struct	s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
-//	double	time;
-//	double	old_time;
 }				t_player;
 
 /*
@@ -85,14 +83,9 @@ typedef struct	s_raycast
 
 typedef struct	s_texture
 {
-//	int			bpp;
-//	int			sizeline;
-//	int			endian;
-//	void		*img;
-//	char		*data;
-	int			x;
-	int			y;
-	int			texture[TEX_HEIGHT][TEX_WIDTH];
+	int				x;
+	int				y;
+	int				texture[TEX_HEIGHT][TEX_WIDTH];
 }				t_texture;
 
 /*
@@ -106,7 +99,6 @@ typedef struct	s_line
 	int		yfinal;
 }				t_line;
 
-
 /*
 ** mlx doesn't currently have a loop for key repeat atm
 ** so keypress and keyrelease should toggle variables so the mlx loop
@@ -116,10 +108,10 @@ typedef struct	s_line
 
 typedef struct	s_wolf_mlx_key_hold
 {
-	int			key_up;
-	int			key_down;
-	int			key_left;
-	int			key_right;
+	int				key_up;
+	int				key_down;
+	int				key_left;
+	int				key_right;
 }				t_wolf_mlx_key_hold;
 
 /*
@@ -163,54 +155,68 @@ void			wolf3d_usage_msg(int i, char *str);
 ** populate_map.c
 */
 
-t_map				*populate_map_from_file(char *file);
+t_map			*populate_map_from_file(char *file);
 
 /*
 ** image_interface.c
 */
 
-//void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
-//		int color);
-void		ft_draw_line_textured(t_wolf *w, int ystart, int yend,
+void			ft_draw_line_textured(t_wolf *w, t_line *l,
 		int line_height, int x);
-void		fill_skybox_floor(t_wolf *w);
+void			fill_skybox_floor(t_wolf *w);
 
 /*
 ** raycast.c
 */
 
-void		raycast_loop_overhead(t_wolf *w);
+void			raycast_loop(t_wolf *w);
+
+/*
+** raycast_2.c
+*/
+
+void			ray(t_wolf *w, int x);
+void			calc_texture_code(t_wolf *w);
+void			calc_line_texture(t_wolf *w);
+void			calc_line_height(t_wolf *w);
 
 /*
 ** player.c
 */
 
-void		wolf3d_init_player(t_wolf *wolf);
+void			wolf3d_init_player(t_wolf *wolf);
 
 /*
 ** wolf3d_mlx_hooks.c
 */
 
-int		wolf3d_key_press(int key_code, t_wolf *wolf);
-int		wolf3d_close(void *param);
-int		wolf3d_key_release(int key_code, t_wolf *wolf);
+int				wolf3d_key_press(int key_code, t_wolf *wolf);
+int				wolf3d_close(void *param);
+int				wolf3d_key_release(int key_code, t_wolf *wolf);
 
 /*
 ** mlx_move_options.c
 */
 
-int			wolf3d_mlx_loop(t_wolf *wolf);
+int				wolf3d_mlx_loop(t_wolf *wolf);
 
 /*
 ** free_the_mlx
 */
 
-void	free_mlx_ptr(void *mlx_ptr);
+void			free_mlx_ptr(void *mlx_ptr);
 
 /*
 ** basic_textures.c
 */
 
-void		basic_texture_handle(t_wolf *wolf);
+void			basic_texture_handle(t_wolf *wolf);
+
+/*
+** misc.c
+*/
+
+void			wolf3d_free_map_norm(char *line, char **split);
+void			raycast_loop_overhead(t_wolf *w);
 
 #endif

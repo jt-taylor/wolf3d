@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 19:58:25 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/14 18:16:56 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/18 16:24:35 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,6 @@
 ** try not to start inside a wall boundry if (1, 1) facing (0, 0) , -->
 ** 		doesn't display the wall while inside it
 */
-
-static inline void	wolf3d_free_map_norm(char *line, char **split)
-{
-	free(line);
-	ft_freestrarr(split);
-}
 
 static inline void	grab_start_cord(int fd, char **arr, t_map *map)
 {
@@ -158,6 +152,11 @@ static int			**get_map_data(t_map *tmp)
 	while (get_next_line(tmp->fd, &line) || y < tmp->height)
 	{
 		map[y] = (int *)malloc(sizeof(int) * (tmp->width));
+		if (line[0] && !ft_strstr(line, " "))
+		{
+			ft_dprintf(2, "line == '%s'", line);
+			wolf3d_usage_msg(2, "no spaces in line");
+		}
 		arr = ft_strsplit(line, ' ');
 		parse_line(arr, map[y], tmp);
 		free(line);

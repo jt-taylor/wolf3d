@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_the_mlx.c                                     :+:      :+:    :+:   */
+/*   misc_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/05 22:39:02 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 11:46:08 by jtaylor          ###   ########.fr       */
+/*   Created: 2019/10/18 14:57:30 by jtaylor           #+#    #+#             */
+/*   Updated: 2019/10/18 15:21:24 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <OpenGL/gl3.h>
-#include <stdlib.h>
-#include "mlx_int.h"
+#include "wolf3d.h"
 
-/*
-** free's the mlx buffers
-** this is in it's own file because 'mlx_int.h' has different definitions
-** than 'mlx.h' and doesn't compile together
-*/
-
-void	free_mlx_ptr(void *mlx_ptr)
+void				wolf3d_free_map_norm(char *line, char **split)
 {
-	free(((mlx_ptr_t *)(mlx_ptr))->font->buffer);
-	free(((mlx_ptr_t *)(mlx_ptr))->font);
-	free(mlx_ptr);
+	free(line);
+	ft_freestrarr(split);
+}
+
+void				raycast_loop_overhead(t_wolf *w)
+{
+	fill_skybox_floor(w);
+	raycast_loop(w);
+	mlx_put_image_to_window(w->mlx.mlx_ptr, w->mlx.window_ptr,
+			w->mlx.img_ptr, 0, 0);
+	ft_bzero(w->mlx.data_start, (WIN_W * WIN_H * 4));
 }
