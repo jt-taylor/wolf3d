@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/17 14:45:01 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/17 19:53:39 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,37 +93,24 @@ static inline void	dda_protect_no_wall(t_wolf *w, int opt)
 	}
 }
 
-//static inline void	calculate_teture_code(t_wolf *w)
-//{
-//	int		i;
-//
-//	i = 0;
-//	if (w->r.step_x > 0 && w->r.step_y > 0)
-//		i = 1;
-//	else if (w->r.step_x < 0 && w->r.step_y > 0)
-//		i = 2;
-//	else if (w->r.step_x > 0 && w->r.step_y < 0)
-//		i = 3;
-//	else if (w->r.step_x < 0 && w->r.step_y < 0)
-//		i = 0;
-//	w->tex_code = i;
-//	w->tex[w->tex_code].y = 0;
-//	w->r.hit_wall = 1;
-//}
+/*
+** the x (column) value to load the color from
+*/
 
 static inline void	calc_line_texture(t_wolf *w)
 {
-	double		which_wall;
+	double		which;
 	int			tex_x_value;
 	if (w->r.side == 0)
-		which_wall = w->r.map_pos_y + w->r.pepindicular * w->r.ray_dir_y;
+		which = w->player.y_cord + w->r.pepindicular * w->r.ray_dir_y;
 	else
-		which_wall = w->r.map_pos_x + w->r.pepindicular * w->r.ray_dir_x;
-	which_wall -= (int)(which_wall);
-	tex_x_value = (int)(which_wall * (double)TEX_WIDTH);
-	if ((w->r.side == 0 && w->r.ray_dir_x > 0) || (w->r.side == 1 && w->r.ray_dir_y < 0))
+		which = w->player.x_cord + w->r.pepindicular * w->r.ray_dir_x;
+	which -= (int)((which));
+	tex_x_value = (int)(which * (double)(TEX_WIDTH));
+	if ((w->r.side == 0 && w->r.ray_dir_x > 0) ||
+			(w->r.side == 1 && w->r.ray_dir_y < 0))
 		tex_x_value = TEX_WIDTH - tex_x_value - 1;
-	w->r.tex_x_value = (tex_x_value >= TEX_WIDTH) ? TEX_WIDTH - 1 : tex_x_value;
+	w->r.tex_x_value = tex_x_value;
 }
 
 static inline void	dda_run(t_wolf *w)
@@ -149,10 +136,7 @@ static inline void	dda_run(t_wolf *w)
 			w->r.map_pos_x >= w->map->width)
 				? dda_protect_no_wall(w, 1) : dda_protect_no_wall(w, 0);
 		else if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
-		{
-			//calculate_teture_code(w);
 			w->r.hit_wall = 1;
-		}
 	}
 }
 
@@ -205,8 +189,8 @@ static inline void	raycast_loop(t_wolf *w)
 		dda_calc(w);
 		dda_run(w);
 		distance_to_wall_and_line_height(w);
-		w->line->xstart = x;
-		w->line->xfinal = x;
+		//w->line->xstart = x;
+		//w->line->xfinal = x;
 //		calculate_teture_code(w);
 		w->tex_code = 0;
 		calc_line_texture(w);
@@ -219,6 +203,7 @@ static inline void	raycast_loop(t_wolf *w)
 
 void				raycast_loop_overhead(t_wolf *w)
 {
+	fill_skybox_floor(w);
 	raycast_loop(w);
 	mlx_put_image_to_window(w->mlx.mlx_ptr, w->mlx.window_ptr,
 			w->mlx.img_ptr, 0, 0);

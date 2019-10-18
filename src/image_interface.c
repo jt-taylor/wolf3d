@@ -6,57 +6,13 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:47:40 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/17 14:18:24 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/17 19:53:22 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-//static inline int	calc_position
-/*
-** this is the standard bresenham line drawing alg
-** will need to replace this to handle textures .
-*/
-
-void		ft_mlx_draw_line(t_line *l, t_wolf *w)
-{
-	l->dx = abs(l->xfinal - l->xstart);
-	l->sx = (l->xstart < l->xfinal) ? 1 : -1;
-	l->dy = abs(l->yfinal - l->ystart);
-	l->sy = (l->ystart < l->yfinal) ? 1 : -1;
-	l->err1 = (l->dx > l->dy) ? l->dx / 2 : l->dy / 2;
-	while (1)
-	{
-		ft_mlx_pixel_put_texture(w, l->xstart, l->ystart, w->tex[w->tex_code].texture[w->tex[w->tex_code].y][w->tex[w->tex_code].y]);
-		if (l->xstart == l->xfinal && l->ystart == l->yfinal)
-			break ;
-		l->err2 = l->err1;
-		if (l->err2 > -l->dx)
-		{
-			l->err1 -= l->dy;
-			(l->xstart != l->xfinal) ? l->xstart += l->sx : 0;
-		}
-		if (l->err2 < l->dy)
-		{
-			l->err1 += l->dx;
-			(l->ystart != l->yfinal) ? l->ystart += l->sy : 0;
-		}
-		//calc which picel to load from the texture array
-		w->tex[w->tex_code].y = (w->tex[w->tex_code].y < TEX_HEIGHT - 1) ? w->tex[w->tex_code].y + 1 : 0;
-	}
-}
-
-void		ft_mlx_pixel_put(t_wolf *wolf, int x_cord, int y_cord)
-{
-	int		off;
-
-	off = (x_cord + (y_cord * WIN_W)) * 4;
-	wolf->mlx.data_start[off] = (char)(0xff);
-	wolf->mlx.data_start[off + 1] = (char)(0x00);
-	wolf->mlx.data_start[off + 2] = (char)(0xff);
-}
-
-void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
+static inline void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
 		int color)
 {
 	int		off;
@@ -71,7 +27,27 @@ void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
 	wolf->mlx.data_start[off + 2] = (char)blue;
 }
 
-void		ft_draw_line_textured(t_wolf *w, int ystart, int yend, int line_height, int x)
+void		fill_skybox_floor(t_wolf *w)
+{
+	//ft_memset(w->mlx.data_start, 0x00fa8072, (WIN_W * WIN_H) * 4);
+	int		y;
+	int		x;
+
+	y = 0;
+	while (y < WIN_H)
+	{
+		x = 0;
+		while (x < WIN_W)
+		{
+			ft_mlx_pixel_put_texture(w, x, y, 0x2708af);
+			x++;
+		}
+		y++;
+	}
+}
+
+void		ft_draw_line_textured(t_wolf *w, int ystart, int yend, int line_height,
+		int x)
 {
 	int		y;
 	int		d;

@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/17 14:19:18 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/17 19:49:01 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 */
 # define WIN_W (1024)
 # define WIN_H (512)
-# define TEX_HEIGHT 512
-# define TEX_WIDTH 512
+# define TEX_HEIGHT 256
+# define TEX_WIDTH 256
 
 /*
 ** the map data
@@ -96,37 +96,16 @@ typedef struct	s_texture
 }				t_texture;
 
 /*
-** variables for bresenhams line drawing alg
+** used to be for bresenhams alg , but you don't really need that
+** 		for raycasting lul
 */
 
 typedef struct	s_line
 {
-	int		xstart;
-	int		xfinal;
 	int		ystart;
 	int		yfinal;
-	int		dx;
-	int		sx;
-	int		dy;
-	int		sy;
-	int		err1;
-	int		err2;
 }				t_line;
 
-/*
-** unused atm
-*/
-typedef struct	s_shape
-{
-	int		q1x;
-	int		q1y;
-	int		q2x;
-	int		q2y;
-	int		q3x;
-	int		q3y;
-	int		q4x;
-	int		q4y;
-}				t_shape;
 
 /*
 ** mlx doesn't currently have a loop for key repeat atm
@@ -169,7 +148,6 @@ typedef struct	s_wolf
 	t_map		*map;
 	t_player	player;
 	t_line		*line;
-	t_shape		*shape;
 	t_raycast	r;
 	t_texture	tex[4];
 	int			tex_code;
@@ -191,13 +169,11 @@ t_map				*populate_map_from_file(char *file);
 ** image_interface.c
 */
 
-void		test(t_wolf *wolf);
-void		ft_mlx_draw_line(t_line *l, t_wolf *wolf);
-void		ft_mlx_pixel_put(t_wolf *wolf, int x_cord, int y_cord);
-void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
-		int color);
-void		ft_mlx_draw_quad(t_wolf *wolf, t_shape *shape);
-void		ft_draw_line_textured(t_wolf *w, int ystart, int yend, int line_height, int x);
+//void		ft_mlx_pixel_put_texture(t_wolf *wolf, int x_cord, int y_cord,
+//		int color);
+void		ft_draw_line_textured(t_wolf *w, int ystart, int yend,
+		int line_height, int x);
+void		fill_skybox_floor(t_wolf *w);
 
 /*
 ** raycast.c
