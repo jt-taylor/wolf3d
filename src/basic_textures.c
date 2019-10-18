@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 18:26:21 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/17 19:44:30 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/18 10:47:13 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 ** color2 == background color
 */
 
-static inline void	load_pattern1(t_wolf *w, int tex_number, int color,
+static void	load_pattern1(t_wolf *w, int tex_number, int color,
 		int color2)
 {
 	int		x;
@@ -53,7 +53,11 @@ static inline void	load_pattern1(t_wolf *w, int tex_number, int color,
 	}
 }
 
-static inline void	load_pattern2(t_wolf *w, int tex_number, int color,
+/*
+** horizontal lines
+*/
+
+static void	load_pattern2(t_wolf *w, int tex_number, int color,
 		int color2)
 {
 	int		x;
@@ -76,6 +80,30 @@ static inline void	load_pattern2(t_wolf *w, int tex_number, int color,
 	}
 }
 
+/*
+** flat color
+*/
+
+static void	load_pattern3(t_wolf *w, int tex_number, int color,
+		int unused)
+{
+	int		x;
+	int		y;
+
+	(void)unused;
+	x = 0;
+	y = 0;
+	while (y < TEX_HEIGHT)
+	{
+		x = 0;
+		while (x < TEX_WIDTH)
+		{
+			w->tex[tex_number].texture[y][x] = color;
+			x++;
+		}
+		y++;
+	}
+}
 
 
 void		basic_texture_handle(t_wolf *w)
@@ -83,5 +111,8 @@ void		basic_texture_handle(t_wolf *w)
 	load_pattern2(w, 0, 0xffffff, 0x000000);
 	load_pattern1(w, 1, 0xff0000, 0x000000);
 	load_pattern1(w, 2, 0x00ff00, 0x000000);
-	load_pattern1(w, 3, 0x0000ff, 0x000000);
+	load_pattern3(w, 0, 0xff0000, 0x000000);
+	load_pattern3(w, 1, 0x00ff00, 0x000000);
+	load_pattern3(w, 2, 0x0000ff, 0x000000);
+	load_pattern3(w, 3, 0xffffff, 0x000000);
 }

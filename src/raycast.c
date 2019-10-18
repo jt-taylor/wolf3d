@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/17 19:53:39 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/18 10:44:00 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ static inline void	ray(t_wolf *w, int x)
 	w->r.step_y = 0;
 	w->r.hit_wall = 0;
 	w->r.side = 0;
+}
+
+static inline void	calc_texture_code(t_wolf *w)
+{
+	if (w->r.side == 1)
+	{
+		if (w->r.step_y < 0)
+			w->tex_code = 0;
+		else
+			w->tex_code = 1;
+	}
+	else
+	{
+		if (w->r.step_x < 0)
+			w->tex_code = 2;
+		else
+			w->tex_code = 3;
+	}
 }
 
 /*
@@ -71,6 +89,7 @@ static inline void	dda_calc(t_wolf *w)
 		w->r.dist_to_side_y =
 			(w->r.map_pos_y + 1.0 - w->player.y_cord) * w->r.change_dist_y;
 	}
+	//printf("dirx == %F\ndiry == %F", w->r.ray_dir_x, w->r.ray_dir_y);
 }
 
 /*
@@ -138,6 +157,7 @@ static inline void	dda_run(t_wolf *w)
 		else if (w->map->map[w->r.map_pos_y][w->r.map_pos_x] > 0)
 			w->r.hit_wall = 1;
 	}
+	calc_texture_code(w);
 }
 
 /*
@@ -189,14 +209,9 @@ static inline void	raycast_loop(t_wolf *w)
 		dda_calc(w);
 		dda_run(w);
 		distance_to_wall_and_line_height(w);
-		//w->line->xstart = x;
-		//w->line->xfinal = x;
-//		calculate_teture_code(w);
-		w->tex_code = 0;
+		//calc_texture_code(w);
 		calc_line_texture(w);
-	//	ft_mlx_draw_line(w->line, w);
 		ft_draw_line_textured(w, w->line->ystart, w->line->yfinal, (w->line->yfinal - w->line->ystart), x);
-		//w->tex[w->tex_code].x = (w->tex[w->tex_code].x >= TEX_SIZE) ? x++ : 0;
 		x++;
 	}
 }
