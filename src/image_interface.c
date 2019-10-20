@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:47:40 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 14:58:54 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/18 17:35:44 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void				fill_skybox_floor(t_wolf *w)
 		if (y >= WIN_H / 2)
 			while (x < WIN_W)
 			{
-				ft_mlx_pixel_put_texture(w, x, y, 0x2708af);
+				ft_mlx_pixel_put_texture(w, x, y, 0x87ceeb);
 				x++;
 			}
 		else
 			while (x < WIN_W)
 			{
-				ft_mlx_pixel_put_texture(w, x, y, 0x17cce2);
+				ft_mlx_pixel_put_texture(w, x, y, 0x7ec850);
 				x++;
 			}
 		y++;

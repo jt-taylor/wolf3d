@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 15:38:56 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/14 18:17:32 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/19 13:25:23 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static inline void	free_int_matrix(t_wolf *w)
 	col = 0;
 	while (col < w->map->height)
 	{
-		free(w->map->map[col]);
+		if (w->map->map[col] != NULL)
+			free(w->map->map[col]);
 		col++;
 	}
 	free(w->map->map);

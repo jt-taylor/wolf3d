@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:28:10 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 15:21:25 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/19 10:15:59 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 */
 # define WIN_W (1024)
 # define WIN_H (512)
-# define TEX_HEIGHT 256
-# define TEX_WIDTH 256
+# define TEX_HEIGHT 64
+# define TEX_WIDTH 64
 
 /*
 ** the map data
@@ -211,6 +211,14 @@ void			free_mlx_ptr(void *mlx_ptr);
 */
 
 void			basic_texture_handle(t_wolf *wolf);
+
+/*
+** more_texture_patterns.c
+*/
+
+void			load_pattern5(t_wolf *w, int tex_number, int color, int color2);
+void			load_pattern6(t_wolf *w, int tex_number, int color, int color2);
+void			load_pattern7(t_wolf *w, int tex_number, int color, int color2);
 
 /*
 ** misc.c

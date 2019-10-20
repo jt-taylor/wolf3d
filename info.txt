@@ -1,0 +1,52 @@
+Wolf3d info file
+
+maps ---------------------------------------------------------------------------
+	the maps are parsed tin the format of
+	(x,y) map dimensions
+	(x,y) start positions
+	1 1 1 1 map values != 0 is walls but only > 0 gets displayed in the raycaster
+	1 0 0 1 ...
+	1 0 0 1 ...
+	1 1 1 1 ...
+
+	numbers are seperated by spaces ' '
+	only reads integer values
+	parsed with strsplit(line, ' ');
+	currently the actual map values don't matter just whether
+		value == 0  --> walkable spaces
+		value >= 1  --> walls for collision and display
+		value <= -1 --> walls for collision only (are ignored by the raycaster)
+	in the future the map values are going to be used for loading different
+		texture pallets
+
+raycaster ----------------------------------------------------------------------
+	pretty standard raycaster implementation
+	for each column on the screen get the distance to the wall
+	the lines are drawn from the middle y value of the screen towards the edges
+	only displays numbers >= 1 as walls
+
+controls -----------------------------------------------------------------------
+	arrow up / down --> move forward backward
+	arrow left / right --> rotate camera right right
+
+textures -----------------------------------------------------------------------
+	so im not using XPM textures
+	instead i'm loading the textures into int[][] arrays with functions
+	there are multiple functions for loading the textures
+	in the future this would let the program overwrite textures on the fly
+		(ie with controls or event triggers)
+	the texture gen functions load off of the MACO TEX_WIDTH / TEX_HEIGHT
+		from the wolf3d.h header file
+	they assume a tex_w // tex_height of 64
+	feel free to change it but higher resolution (mostly sharp and thin lines)
+		textures just look a little
+		wonky due to the way that I'm handling rounding for
+		where to load the pixels textures x/y value from the array
+		this is mostly because you only draw 1 verticle line at a time
+		in the raycaster ,
+
+how to run ---------------------------------------------------------------------
+	compile the executable with make
+	then run it like this
+		./wolf3d path/to/map or if you are using the inclued maps
+		./wolf3d maps/valid/testing_map.c

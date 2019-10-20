@@ -6,7 +6,7 @@
 #    By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/16 19:30:49 by jtaylor           #+#    #+#              #
-#    Updated: 2019/10/18 15:10:33 by jtaylor          ###   ########.fr        #
+#    Updated: 2019/10/18 17:21:31 by jtaylor          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_FILE = main_wolf3d.c \
 				free_the_mlx.c \
 				mlx_move_options.c \
 				basic_textures.c \
+				more_texture_patterns.c \
 				misc_functions.c \
 				raycast_2.c
 SRC = $(addprefix ./src/, $(SRC_FILE))

@@ -7,6 +7,7 @@ test3.txt				|	check lines differing # of values
 test_map.txt			|	check starting in wall / no non wall map values
 test_map3.txt			|	check map not enclosed in walls
 wow.txt					|	no spaces between numbers
+test_bigger_dimensions.txt |	dimensions provided > actual map size
 
  -------------------------------------------------------------------------------
 
@@ -14,3 +15,6 @@ valid maps are valid maps that you can play on
  -------------------------------------------------------------------------------
 testing_map.txt			|	mostly open with some basic wall configurations
 empty_recktangle.txt	|	an empty recktangle
+labyrinthian.txt		|	a labyrynth , i never spell it right do I ?
+negative_are_cool.txt	|	negatives are walls for collision but not display
+								just a box in a box

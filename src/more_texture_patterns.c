@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 16:52:44 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 17:33:17 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/19 16:25:33 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,16 @@ void	load_pattern6(t_wolf *w, int tex_number, int color, int color2)
 }
 
 /*
-** diagnol gradient
+** diagnol x
+** need to fix this supposed to be a gradient but had integer overflow
+** so this is what it is for now
 */
 
 void	load_pattern7(t_wolf *w, int tex_number, int color, int color2)
 {
-	int		x;
-	int		y;
-	int		mod;
+	int			x;
+	int			y;
+	double		mod;
 
 	(void)color2;
 	y = 0;
@@ -79,8 +81,9 @@ void	load_pattern7(t_wolf *w, int tex_number, int color, int color2)
 		x = 0;
 		while (x < TEX_WIDTH)
 		{
-			mod = y * 128 / TEX_HEIGHT + x * 128 / TEX_WIDTH;
-			w->tex[tex_number].texture[y][x] = color * 256 * mod *
+			mod = ((double)y / (double)TEX_HEIGHT + (double)x /
+					(double)TEX_WIDTH) / (double)2;
+			w->tex[tex_number].texture[y][x] = (double)color * mod *
 				(x != y && x != TEX_WIDTH - y);
 			x++;
 		}

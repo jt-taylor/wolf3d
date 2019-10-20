@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:02:48 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 15:16:43 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/19 16:50:40 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ void	calc_line_texture(t_wolf *w)
 	if ((w->r.side == 0 && w->r.ray_dir_x > 0) ||
 			(w->r.side == 1 && w->r.ray_dir_y < 0))
 		tex_x_value = TEX_WIDTH - tex_x_value - 1;
+	if (tex_x_value < 0)
+		tex_x_value = 0;
+	else if (tex_x_value > TEX_WIDTH)
+		tex_x_value = TEX_WIDTH - 1;
 	w->r.tex_x_value = tex_x_value;
 }
 

@@ -6,11 +6,20 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 18:01:39 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 15:17:32 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/19 17:02:45 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+
+/*
+** didn't make a struct for rays so the x/y are seperated
+*/
+
+/*
+** caculate the ray distance to the wall , stepping in the direction
+** of the ray
+*/
 
 static inline void	dda_calc(t_wolf *w)
 {
@@ -42,10 +51,17 @@ static inline void	dda_calc(t_wolf *w)
 
 /*
 ** so it doesn't try to check out of index array and crash
+** the raycast keeps looking until it hits a wall , this
+** just makes it so that if it would try to check outside the bounds
+** of the map matrix it instead finds the wall at either
+** (0,0) // (MAP_WIDTH - 1, MAP_HEIGHT - 1)
 */
 
 static inline void	dda_protect_no_wall(t_wolf *w, int opt)
 {
+	ft_dprintf(2, "missing wall ?? ray->map_pos = [%d][%d]",
+			w->r.map_pos_x, w->r.map_pos_y);
+	wolf3d_close(w);
 	if (opt)
 	{
 		w->r.map_pos_x = w->map->width - 1;
@@ -59,6 +75,14 @@ static inline void	dda_protect_no_wall(t_wolf *w, int opt)
 		w->r.hit_wall = 1;
 	}
 }
+
+/*
+** loops until the ray hits a wall , the x / y steps are calculated
+** seperately because i didn't make a ray struct ,
+** numbers over 0 are displayed as walls but
+** the collision is just checking if != 0 so negative map values
+** are invisible walls
+*/
 
 static inline void	dda_run(t_wolf *w)
 {
@@ -87,6 +111,12 @@ static inline void	dda_run(t_wolf *w)
 	}
 	calc_texture_code(w);
 }
+
+/*
+** calculates the height of the line to draw
+** looking back at this i see that i spelled it pepindicular
+** instead of perpendicular I blame vim's auto complete
+*/
 
 static inline void	distance_to_wall_and_line_height(t_wolf *w)
 {
