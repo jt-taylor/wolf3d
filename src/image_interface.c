@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 15:47:40 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/18 17:35:44 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/20 16:46:30 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ void				ft_draw_line_textured(t_wolf *w, t_line *l, int line_height,
 	int		tex_c;
 	int		color;
 
+	if (w->line->ystart < 0)
+		w->line->ystart = 0;
+	if (w->line->ystart >= WIN_H)
+		w->line->ystart = 0;
+	if (w->line->yfinal < 0)
+		w->line->yfinal = 0;
+	if (w->line->yfinal >= WIN_H)
+		w->line->yfinal = WIN_H - 1;
 	y = l->ystart;
 	while (y < l->yfinal)
 	{

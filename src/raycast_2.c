@@ -6,7 +6,7 @@
 /*   By: jtaylor <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:02:48 by jtaylor           #+#    #+#             */
-/*   Updated: 2019/10/19 16:50:40 by jtaylor          ###   ########.fr       */
+/*   Updated: 2019/10/20 16:45:28 by jtaylor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ void	calc_line_height(t_wolf *w)
 
 	line_height = (WIN_H / w->r.pepindicular);
 	w->line->ystart = -line_height / 2 + WIN_H / 2;
-	if (w->line->ystart < 0)
-		w->line->ystart = 0;
-	if (w->line->ystart >= WIN_H)
-		w->line->ystart = 0;
+//	if (w->line->ystart < 0)
+//		w->line->ystart = 0;
+//	if (w->line->ystart >= WIN_H)
+//		w->line->ystart = 0;
 	w->line->yfinal = line_height / 2 + WIN_H / 2;
-	if (w->line->yfinal < 0)
-		w->line->yfinal = 0;
-	if (w->line->yfinal >= WIN_H)
-		w->line->yfinal = WIN_H - 1;
+//	if (w->line->yfinal < 0)
+//		w->line->yfinal = 0;
+//	if (w->line->yfinal >= WIN_H)
+//		w->line->yfinal = WIN_H - 1;
 }
